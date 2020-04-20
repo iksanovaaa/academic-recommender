@@ -1,0 +1,12 @@
+<!-- creole.xml TheTheConjunction -->
+<!--  Julia, 2/6/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.TheTheConjunction.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">TheTheConjunction.jar</JAR>
+</CREOLE-DIRECTORY>

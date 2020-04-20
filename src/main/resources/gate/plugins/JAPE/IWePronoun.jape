@@ -1,0 +1,31 @@
+Phase: IWePronouns
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: IWePronouns1
+(
+(
+	{Token.string=="I"}|
+	{Token.string=="me"}|
+	{Token.string==~"[Mm]y"}|
+	{Token.string==~"[Mm]ine"}
+)
+)
+:potentialI
+--> 
+:potentialI.IPronoun={}
+
+
+Rule: IWePronouns2
+(
+(
+	{Token.string==~"[Ww]e"}|
+	{Token.string==~"us"}|
+	{Token.string==~"[Oo]ur"}|
+	{Token.string==~"[Oo]urs"}
+)
+)
+:potentialWe
+--> 
+:potentialWe.WePronoun={}
+

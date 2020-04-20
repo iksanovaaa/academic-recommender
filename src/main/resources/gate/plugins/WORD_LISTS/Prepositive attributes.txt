@@ -1,0 +1,7 @@
+Prepositive attributes
+^JJ[RS]?$ ^NN[SP(PS)]?$
+^PRP\$$ ^NN[SP(PS)]?$
+^CD$ ^NN[SP(PS)]?$
+^VB[NG]$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^POS$ ^NN[SP(PS)]?$

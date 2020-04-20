@@ -1,0 +1,12 @@
+<!-- creole.xml WordlistSuffixFinder -->
+<!--  Julia, 28/5/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.WordlistSuffixFinder.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">WordlistSuffixFinder.jar</JAR>
+</CREOLE-DIRECTORY>

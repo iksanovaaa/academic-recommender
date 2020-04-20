@@ -1,0 +1,12 @@
+<!-- creole.xml WordlistFinder -->
+<!--  Julia, 25/5/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.WordlistFinder.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">WordlistFinder.jar</JAR>
+</CREOLE-DIRECTORY>

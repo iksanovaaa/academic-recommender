@@ -1,0 +1,12 @@
+<!-- creole.xml AnnotationsDeleter -->
+<!--  Julia, 1/6/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.AnnotationsDeleter.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">AnnotationsDeleter.jar</JAR>
+</CREOLE-DIRECTORY>

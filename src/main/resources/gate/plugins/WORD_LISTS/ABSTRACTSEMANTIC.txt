@@ -1,0 +1,27 @@
+Abstract semantic verbs
+exist
+appear
+occur
+alter
+continue
+contribute
+discuss
+involve
+investigate
+conduct
+consider
+illustrate
+assume
+find
+calculate
+demonstrate
+identify
+analyze
+support
+challenge
+examine
+affect
+provide
+include
+classify
+establish

@@ -1,0 +1,13 @@
+Phase: AllNouns
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: AllNouns
+(
+(
+	{Token.category==~"NN.*"}
+)
+)
+:potential
+--> 
+:potential.Noun={}

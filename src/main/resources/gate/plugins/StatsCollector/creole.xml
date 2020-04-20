@@ -1,0 +1,12 @@
+<!-- creole.xml StatsCollector -->
+<!--  Julia, 15/6/2016 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.StatsCollector.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">StatsCollector.jar</JAR>
+</CREOLE-DIRECTORY>

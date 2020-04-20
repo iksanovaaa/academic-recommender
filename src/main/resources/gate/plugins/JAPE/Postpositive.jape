@@ -1,0 +1,39 @@
+Phase: PrepositivePostpositiveGroup
+Input: Token
+Options: control = appelt debug = true 
+
+Rule: Postpositive1
+(
+{Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}
+(
+	(
+	{Token.category=="IN", Token.string==~"[a-zA-Z]*"}
+	({Token.category=="DT", Token.string==~"[a-zA-Z]*"})?
+	{Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}
+	)|
+	(
+	({Token.category=="IN", Token.string==~"[a-zA-Z]*"}
+	({Token.category=="DT", Token.string==~"[a-zA-Z]*"})?)?
+	{Token.category==~"VB[NG]", Token.string==~"[a-zA-Z]*"}
+	)|
+	(
+	{Token.category=="TO", Token.string==~"[a-zA-Z]*"}
+	{Token.category=="VB", Token.string==~"[a-zA-Z]*"}
+	)|
+	(
+	{Token.category=="CD"}
+	)|
+	(
+	{Token.category=="RB", Token.string==~"[a-zA-Z]*"}
+	)|
+	(
+	{Token.category==~"JJ.*", Token.string==~"[a-zA-Z]*"}
+	{Token.category=="IN", Token.string==~"[a-zA-Z]*"}
+	({Token.category=="DT", Token.string==~"[a-zA-Z]*"})?
+	{Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}
+	)
+)
+)
+:potential
+--> 
+:potential.Postpositive={}

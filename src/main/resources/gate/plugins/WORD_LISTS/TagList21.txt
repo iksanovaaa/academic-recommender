@@ -1,0 +1,22 @@
+Token
+Noun
+IPronoun
+WePronoun
+OrSuffix
+Past
+Present
+Future
+PassiveVoice
+PersonalPronoun
+Postpositive
+Prepositive
+ThatThose
+YouHeShe
+Abstract semantic verbs
+Archaisms
+Complex conjunctions
+Complex prepositions
+Desemantisized verbs
+Intensifying adverbs
+Logic connectors
+Abstract suffix nouns

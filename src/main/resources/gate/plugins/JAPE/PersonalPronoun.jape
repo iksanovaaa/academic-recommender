@@ -1,0 +1,13 @@
+Phase: PersonalPronoun
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: PersPronoun1
+(
+(
+	{Token.category==~"PRP.*", Token.root!=~"it.*"}
+)
+)
+:potential
+--> 
+:potential.PersonalPronoun={}

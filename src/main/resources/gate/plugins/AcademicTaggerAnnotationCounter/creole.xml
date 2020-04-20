@@ -1,0 +1,12 @@
+<!-- creole.xml AcademicTaggerAnnotationCounter -->
+<!--  Julia, 1/6/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.AcademicTaggerAnnotationCounter.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">AcademicTaggerAnnotationCounter.jar</JAR>
+</CREOLE-DIRECTORY>

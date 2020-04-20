@@ -1,0 +1,13 @@
+Phase: ORSuffix
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: OrSuffix1
+(
+(
+	{Token.category==~"NN.*", Token.string=~"\\w+[Oo][Rr]\\b"}
+)
+)
+:potential
+--> 
+:potential.OrSuffix={}

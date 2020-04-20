@@ -1,0 +1,21 @@
+Phase: PrepositivePostpositiveGroup
+Input: Token
+Options: control = brill debug = true  
+
+Rule: Prepositive1
+(
+(
+	{Token.category==~"JJ.*", Token.string==~"[a-zA-Z]*"}|
+	{Token.category=="PRP$", Token.string==~"[a-zA-Z]*"}|
+	{Token.category=="CD"}|
+	{Token.category==~"VB[NG]", Token.string==~"[a-zA-Z]*"}|
+	{Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}|
+	({Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}
+	{Token.category=="POS"})
+)
+{Token.category==~"NN.*", Token.string==~"[a-zA-Z]*"}
+)
+:potential
+--> 
+:potential.Prepositive={}
+

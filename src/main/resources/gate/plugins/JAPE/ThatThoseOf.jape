@@ -1,0 +1,17 @@
+Phase: ThatThoseOf
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: ThatThoseOf1
+(
+(
+	{Token.string=="that"}|
+	{Token.string=="That"}|
+	{Token.string=="those"}|
+	{Token.string=="Those"}
+)
+{Token.string=="of"}
+)
+:potential
+--> 
+:potential.ThatThose={}

@@ -1,0 +1,12 @@
+<!-- creole.xml BeHaveTagger -->
+<!--  Julia, 19/6/2015 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+jsh.academic.tagger.BeHaveTagger.
+-->
+
+<CREOLE-DIRECTORY>
+  <JAR SCAN="true">BeHaveTagger.jar</JAR>
+</CREOLE-DIRECTORY>

@@ -1,0 +1,15 @@
+﻿Postpositive attributes 
+^NN[SP(PS)]?$ ^IN$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^DT$ ^NN[SP(PS)]?$ ^POS$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^DT$ ^NN[SP(PS)]?$ ^POS$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^VB[NG]$
+^NN[SP(PS)]?$ ^VB[NG]$
+^NN[SP(PS)]?$ ^IN$ ^DT$ ^VB[NG]$
+^NN[SP(PS)]?$ ^TO$ ^VB$
+^NN[SP(PS)]?$ ^CD$
+^NN[SP(PS)]?$ ^RB$
+^NN[SP(PS)]?$ ^JJ[RS]?$ ^IN$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^JJ[RS]?$ ^IN$ ^DT$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^DT$ ^JJ[RS]?$ ^NN[SP(PS)]?$
+^NN[SP(PS)]?$ ^IN$ ^JJ[RS]?$ ^NN[SP(PS)]?$

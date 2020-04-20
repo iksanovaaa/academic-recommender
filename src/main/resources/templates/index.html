@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Academic Writing Analysis Application</title>
+    <!--link href="https://fonts.googleapis.com/css2?family=Belleza&display=swap" rel="stylesheet"-->
+    <!--link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet"-->
+    <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
+    <link href="../static/css/annotations.css" th:href="@{css/annotations.css}" rel="stylesheet">
+    <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
+</head>
+<body>
+    <div id='content'>
+        <div class="center">
+            <h2>Linguistic Research System</h2>
+        </div>
+        <p th:text="'The information is loaded from ' + ${name} + ''"/>
+        <div class="container">
+            <!-- Corpora column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Corpora</h3>
+                </div>
+                <table class="streched">
+                    <tr><td><a>Corpus 1</a></td></tr>
+                    <tr>
+                        <td>
+                            <div class="center dotted-border pointer">
+                                <a>New corpus</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Documents in the corpus column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Documents</h3>
+                </div>
+                <table class="streched">
+                    <tr><td>Document 1</td></tr>
+                    <tr><td>Document 2</td></tr>
+                    <tr>
+                        <td>
+                            <div class="center dotted-border pointer">
+                                <a>New document</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Colorized text column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Colorized text</h3>
+                </div>
+                [(${colorizedHtml})]
+            </div>
+
+            <!-- Annotation checkboxes' column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Annotations</h3>
+                </div>
+                <div th:each="annotation, status: ${annotations}" th:class="${annotation.type}" >
+                    <input class="controller" type="checkbox" th:text="${annotation.name}" th:onclick="'controllerClicked(this, ' + ${status.index} + ')'" checked>
+                </div>
+                <div class="center dotted-border pointer">
+                    <a onclick="disableAll()">Disable all</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+        </div>
+    </div>
+
+    <script>
+        function enableAnnotations(index) {
+            const className = 'color-' + (index + 1);
+            const disabledClassName = className + '-disabled';
+
+            const elements = [].slice.call(document.getElementsByClassName(disabledClassName));
+            
+            elements.forEach(function(item, i, arr) {
+                item.classList.add(className);
+                item.classList.remove(disabledClassName);
+            });
+        }
+
+        function disableAnnotations(index) {
+            const className = 'color-' + (index + 1);
+            const disabledClassName = className + '-disabled';
+
+            const elements = [].slice.call(document.getElementsByClassName(className));
+            
+            elements.forEach(function(item, i, arr) {
+                item.classList.add(disabledClassName);
+                item.classList.remove(className);
+            });
+        }
+
+        function controllerClicked(controller, index) {
+            if (controller.checked) {
+                enableAnnotations(index);
+            } else {
+                disableAnnotations(index);
+            }
+        }
+
+        function disableAll() {
+            const controllers = document.getElementsByClassName('controller');
+
+            for (let i = 0; i < controllers.length; ++i) {
+                controllers[i].checked = false;
+                disableAnnotations(i);
+            }
+        }
+
+        const modal = document.getElementById("myModal");
+        const content = document.getElementById('content')
+        const btn = document.getElementById("myBtn");
+        const span = document.getElementsByClassName("close")[0];
+
+        function closeModal() {
+            modal.style.display = "none";
+            content.classList.remove('blurred');
+        }
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = () => {
+            modal.style.display = "block";
+            content.classList.add('blurred');
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = () => {
+            closeModal();
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

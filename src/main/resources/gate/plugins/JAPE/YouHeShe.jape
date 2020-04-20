@@ -1,0 +1,17 @@
+Phase: YouHeShe
+Input: Token
+Options: control = once debug = true  
+
+Rule: PersPronoun1
+(
+(
+	{Token.root=="he"}|
+	{Token.root=="she"}|
+	{Token.category==~"PRP*", Token.root==~"you*"}|
+	{Token.root=="his"}|
+	{Token.category==~"PRP*", Token.root==~"her*"}
+)
+)
+:potential
+--> 
+:potential.YouHeShe={}

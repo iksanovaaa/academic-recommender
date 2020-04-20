@@ -1,0 +1,119 @@
+Phase: PassiveVoice
+Input: Token
+Options: control = appelt debug = true  
+
+Rule: PassiveVoiceSimple
+(
+(
+	{Token.root=="be"}
+)
+({Token.string=="not"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceContinuous
+(
+(
+	{Token.root=="be"}
+)?
+({Token.string=="not"})?
+({Token.string=="being"})
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoicePerfect
+(
+(
+	{Token.root=="have"}
+)?
+({Token.string=="not"})?
+{Token.string=="been"}
+({Token.string=="being"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceFuture
+(
+(
+{Token.string=="will"}|
+{Token.string=="would"}
+)?
+({Token.string=="not"})?
+{Token.string=="be"}
+({Token.string=="being"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceGoingTo
+(
+(
+	{Token.root=="be"}
+)?
+({Token.string=="not"})?
+{Token.string=="going"}
+{Token.string=="to"}
+{Token.string=="be"}
+({Token.string=="being"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceFuturePerfect
+(
+({Token.string=="will"})
+({Token.string=="not"})?
+{Token.string=="have"}
+{Token.string=="been"}
+({Token.string=="being"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceGoingToPerfect
+(
+(
+	{Token.root=="be"}
+)
+({Token.string=="not"})?
+{Token.string=="going"}
+{Token.string=="to"}
+{Token.string=="have"}
+{Token.string=="been"}
+({Token.string=="being"})?
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
+Rule: PassiveVoiceUsedTo
+(
+(
+{Token.string=="did"}
+{Token.string=="not"}
+)?
+{Token.root=="use"}
+{Token.string=="to"}
+{Token.string=="be"}
+{Token.category=="VBN"}
+)
+:potential
+--> 
+:potential.PassiveVoice={}
+
