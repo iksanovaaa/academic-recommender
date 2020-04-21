@@ -1,9 +1,9 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface CorpusRepository extends CrudRepository<Corpus, Long> {
+public interface CorpusRepository extends MongoRepository<Corpus, String> {
     List<Corpus> findByName(String name);
 }

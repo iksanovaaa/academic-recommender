@@ -1,31 +1,22 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+
 import java.net.URL;
 
-@Entity
 public class Document {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Id
+    private String id;
     private String name;
-    private URL url;
+    private String content;
+    private String htmlContent;
 
     public Document() {}
 
-    public Document(String name, URL url) {
+    public Document(String name, URL url, String content, String htmlContent) {
         this.name = name;
-        this.url = url;
-    }
-
-    public URL getUrl() {
-        return url;
-    }
-
-    public void setUrl(URL url) {
-        this.url = url;
+        this.content = content;
+        this.htmlContent = htmlContent;
     }
 
     public String getName() {
@@ -36,7 +27,20 @@ public class Document {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        // ToDo: run transform to HTML
+        this.content = content;
+    }
+
+    public String getHtmlContent() {
+        return htmlContent;
     }
 }

@@ -107,3 +107,7 @@ table.streched {
 .blurred {
   filter: saturate(20%) blur(4px);
 }
+
+.autosized {
+  width: fit-content;
+}

@@ -8,6 +8,7 @@
     <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
     <link href="../static/css/annotations.css" th:href="@{css/annotations.css}" rel="stylesheet">
     <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
+    <script src="../static/scripts/index.js" th:src="@{scripts/index.js}"></script>
 </head>
 <body>
     <div id='content'>
@@ -25,7 +26,7 @@
                     <tr><td><a>Corpus 1</a></td></tr>
                     <tr>
                         <td>
-                            <div class="center dotted-border pointer">
+                            <div id="new-corpus" class="center dotted-border pointer">
                                 <a>New corpus</a>
                             </div>
                         </td>
@@ -43,7 +44,7 @@
                     <tr><td>Document 2</td></tr>
                     <tr>
                         <td>
-                            <div class="center dotted-border pointer">
+                            <div id="new-document" class="center dotted-border pointer">
                                 <a>New document</a>
                             </div>
                         </td>
@@ -72,18 +73,26 @@
                 </div>
             </div>
         </div>
-
-        <!-- Trigger/Open The Modal -->
-        <button id="myBtn">Open Modal</button>
     </div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-        <!-- Modal content -->
+    <!-- New Corpus modal window -->
+    <div id="corpus-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <span class="close" id="corpus-modal-close">&times;</span>
+            <h2>Corpus:</h2>
+            <p>Name: <input id='corpus-name'></p>
+            <p><div class='dotted-border pointer autosized' onclick="createCorpus()">Save changes</div></p>
+        </div>
+    </div>
+
+    <!-- New Document modal window -->
+    <div id="document-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="document-modal-close">&times;</span>
+            <h2>Document:</h2>
+            <p>Name: <input id='document-name'></p>
+            <div id="document-drop-zone" class="dotted-border autosized">Drop your file here</div>
+            <p><div class="dotted-border pointer autosized" onclick="createDocument()">Save changes</div></p>
         </div>
     </div>
 
@@ -129,33 +138,59 @@
             }
         }
 
-        const modal = document.getElementById("myModal");
-        const content = document.getElementById('content')
-        const btn = document.getElementById("myBtn");
-        const span = document.getElementsByClassName("close")[0];
-
-        function closeModal() {
-            modal.style.display = "none";
-            content.classList.remove('blurred');
+        function createCorpus() {
+            postRequest(
+                'api/create_corpus', 
+                { name: document.getElementById('corpus-name').value }, 
+                () => {}, 
+                () => { alert('Unable to create a corpus'); }
+            );
         }
 
-        // When the user clicks on the button, open the modal
-        btn.onclick = () => {
-            modal.style.display = "block";
-            content.classList.add('blurred');
+        registerModal('content', 'corpus-modal', 'new-corpus');
+        registerModal('content', 'document-modal', 'new-document');
+
+        let uploadedFile = null;
+
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var files = evt.dataTransfer.files; // FileList object.
+            uploadedFile = files[0];
         }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = () => {
-            closeModal();
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = (event) => {
-            if (event.target == modal) {
-                closeModal();
+        function createDocument() {
+            if (uploadedFile !== null) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const documentInfo = { 
+                        name: document.getElementById('document-name').value,
+                        content: e.target.result
+                    };
+
+                    postRequest(
+                        'api/create_document',
+                        documentInfo,
+                        () => {},
+                        () => { alert('Unable to create a document'); }
+                    )
+                };
+
+                reader.readAsText(uploadedFile);
             }
         }
+
+        var dropZone = document.getElementById('document-drop-zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
     </script>
 </body>
 </html>

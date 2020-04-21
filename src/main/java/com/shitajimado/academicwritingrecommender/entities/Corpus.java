@@ -1,17 +1,17 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
 public class Corpus {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Id
+    private String id;
     private String name;
-    @OneToMany
-    private Set<Document> documents;
+
+    private Set<Document> documents = new HashSet<>();
 
     public Corpus() {}
 
@@ -20,7 +20,7 @@ public class Corpus {
         this.documents = documents;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
