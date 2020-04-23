@@ -1,9 +1,7 @@
 package com.shitajimado.academicwritingrecommender.core;
 
-import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -11,42 +9,19 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
-public class TextWithNodes {
+public class Text {
     private List<TextNode> nodes;
     private Map<Long, Long> idMapping;
     private Set<String> annotationsSet = new HashSet<>();
     private List<Annotation> annotations = new ArrayList<>();
 
-    public TextWithNodes(Collection<TextNode> nodes) {
+    public Text(Collection<TextNode> nodes) {
         this.nodes = new ArrayList<>(nodes);
         this.idMapping = new HashMap<>();
 
         for (int i = 0; i < this.nodes.size(); ++i) {
             idMapping.put(this.nodes.get(i).getId(), (long) i);
         }
-    }
-
-    public static TextWithNodes fromXmlString(String xml) throws ParserConfigurationException, SAXException, IOException {
-        var parser = SAXParserFactory.newInstance().newSAXParser();
-        var reader = parser.getXMLReader();
-
-        var handler = new TextWithNodeHandler();
-        reader.setContentHandler(handler);
-        reader.parse(new InputSource(new StringReader(xml)));
-
-        var textWithNodes = handler.extractTextWithNodes();
-
-        var annotationHandler = new AnnotationHandler();
-        reader.setContentHandler(annotationHandler);
-        reader.parse(new InputSource(new StringReader(xml)));
-
-        var annotations = annotationHandler.extractAnnotations();
-
-        for (var annotation : annotations) {
-            textWithNodes.addAnnotation(annotation);
-        }
-
-        return textWithNodes;
     }
 
     public List<TextNode> getNodes() {
