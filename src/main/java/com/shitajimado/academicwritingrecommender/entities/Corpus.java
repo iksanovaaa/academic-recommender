@@ -11,14 +11,12 @@ public class Corpus {
     @Id
     private String id;
     private String name;
-    @DBRef
-    private Set<Document> documents = new HashSet<>();
+    private Set<String> documents = new HashSet<>();
 
     public Corpus() {}
 
-    public Corpus(String name, Set<Document> documents) {
+    public Corpus(String name) {
         this.name = name;
-        this.documents = documents;
     }
 
     public String getId() {
@@ -33,15 +31,16 @@ public class Corpus {
         this.name = name;
     }
 
-    public Set<Document> getDocuments() {
+    public Set<String> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(Set<Document> documents) {
-        this.documents = documents;
+    public void addDocument(Document document) {
+        this.documents.add(document.getId());
+        document.setCorpusId(this.id);
     }
 
-    public void addDocument(Document document) {
-        this.documents.add(document);
+    public void removeDocument(Document document) {
+        this.documents.remove(document.getId());
     }
 }

@@ -12,18 +12,17 @@ public class Document {
     private String corpusId;
     private String name;
     private String content;
-    @DBRef
-    private Text annotatedText;
+    private String textId;
 
     public Document() {
 
     }
 
-    public Document(String corpusId, String name, String content, Text annotatedText) throws DocumentNotCreatedException {
-        this.corpusId = corpusId;
+    public Document(String name, String content, Text annotatedText) throws DocumentNotCreatedException {
+        this.corpusId = "";
         this.name = name;
         this.setContent(content);
-        this.annotatedText = annotatedText;
+        this.textId = annotatedText.getId();
     }
 
     public String getName() {
@@ -46,19 +45,19 @@ public class Document {
         this.content = content;
     }
 
-    public Text getAnnotatedText() {
-        return annotatedText;
-    }
-
-    public void setAnnotatedText(Text annotatedText) {
-        this.annotatedText = annotatedText;
-    }
-
     public String getCorpusId() {
         return corpusId;
     }
 
     public void setCorpusId(String corpusId) {
         this.corpusId = corpusId;
+    }
+
+    public String getTextId() {
+        return textId;
+    }
+
+    public void setTextId(String textId) {
+        this.textId = textId;
     }
 }

@@ -1,5 +1,6 @@
 package com.shitajimado.academicwritingrecommender.controller.api;
 
+import com.google.common.collect.Sets;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import com.shitajimado.academicwritingrecommender.entities.*;
 import com.shitajimado.academicwritingrecommender.services.GateService;
@@ -25,7 +26,7 @@ public class DocumentApiController {
         var text = gateService.processWithGate(document.getContent());
         textRepository.save(text);
 
-        document.setAnnotatedText(text);
+        document.setTextId(text.getId());
         var saved = documentRepository.save(document);
 
         corpusRepository.findById(document.getCorpusId()).map(
@@ -38,9 +39,9 @@ public class DocumentApiController {
 
     @GetMapping(value = "/read_document", consumes = "application/x-www-form-urlencoded")
     public Set<Document> readDocument(@RequestParam String corpus) {
-        return corpusRepository.findById(corpus)
-                .map(Corpus::getDocuments)
-                .orElseGet(HashSet::new);
+        return corpusRepository.findById(corpus).map(
+                foundCorpus -> Sets.newHashSet(documentRepository.findAllById(foundCorpus.getDocuments()))
+        ).orElseGet(HashSet::new);
     }
 
     @PostMapping("/update_document")
@@ -52,7 +53,7 @@ public class DocumentApiController {
     public void deleteDocument(@RequestBody Document document) {
         corpusRepository.findById(document.getCorpusId()).ifPresent(
                 corpus -> {
-                    corpus.getDocuments().remove(document);
+                    corpus.removeDocument(document);
                     documentRepository.delete(document);
                     corpusRepository.save(corpus);
                 }
@@ -68,12 +69,12 @@ public class DocumentApiController {
         var content = "Hi, I'm a native speaker. I will try to do my best";
         var text = textRepository.save(gateService.processWithGate(content));
 
-        var corpus = corpusRepository.save(new Corpus("Teacher's", new HashSet<>()));
-
-        var document = documentRepository.save(new Document(corpus.getId(), "DRIPSET", content, text));
+        var document = documentRepository.save(new Document("DRIPSET", content, text));
+        var corpus = corpusRepository.save(new Corpus("Teacher's"));
 
         corpus.addDocument(document);
         corpusRepository.save(corpus);
+        documentRepository.save(document);
     }
 }
 

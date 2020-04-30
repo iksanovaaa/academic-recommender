@@ -77,4 +77,8 @@ public class Text {
     public List<Annotation> getAnnotations() {
         return annotations;
     }
+
+    public String getId() {
+        return id;
+    }
 }

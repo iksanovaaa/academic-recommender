@@ -19,8 +19,6 @@ public class StatisticsApiController {
     public Statistics readStatistics(@RequestParam String corpusId) throws CorpusNotFoundException {
         return corpusRepository.findById(corpusId).map(
                 corpus -> new Statistics("", 0L)
-        ).orElseThrow(
-                () -> new CorpusNotFoundException("Unable to find a corpus with given ID")
-        );
+        ).orElseThrow(() -> new CorpusNotFoundException("Unable to find a corpus with given ID"));
     }
 }

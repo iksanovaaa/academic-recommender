@@ -17,8 +17,8 @@ public class TextApiController {
 
     @GetMapping(value = "/read_text", consumes = "application/x-www-form-urlencoded")
     public TextHelper readText(@RequestParam String document) throws TextNotPresentException {
-        return documentRepository.findById(document).map(
-                doc -> new TextHelper(doc.getAnnotatedText())
+        return documentRepository.findById(document).flatMap(
+                doc -> textRepository.findById(doc.getTextId()).map(TextHelper::new)
         ).orElseThrow(() -> new TextNotPresentException("Unable to find text"));
     }
 }

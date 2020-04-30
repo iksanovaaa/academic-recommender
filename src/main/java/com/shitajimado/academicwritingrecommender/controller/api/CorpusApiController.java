@@ -26,7 +26,6 @@ public class CorpusApiController {
 
     @GetMapping(value = "/read_corpus", consumes = "application/x-www-form-urlencoded")
     public List<Corpus> readCorpus() {
-        var corpora = corpusRepository.findAll();
         return corpusRepository.findAll();
     }
 
@@ -37,7 +36,8 @@ public class CorpusApiController {
 
     @PostMapping("/delete_corpus")
     public void deleteCorpus(@RequestBody Corpus corpus) {
-        documentRepository.deleteAll(corpus.getDocuments());
+        var docs = documentRepository.findAllById(corpus.getDocuments());
+        documentRepository.deleteAll(docs);
         corpusRepository.delete(corpus);
     }
 }
