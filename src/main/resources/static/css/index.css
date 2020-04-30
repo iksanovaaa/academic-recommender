@@ -61,7 +61,7 @@ h3 {
   border-bottom: 2px dotted #ddd;
 }
 
-table.streched {
+table.stretched {
   width: 100%;
 }
 
@@ -70,7 +70,6 @@ table.streched {
 }
 
 .modal {
-  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -97,8 +96,21 @@ table.streched {
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.deleter {
+  color: #aaa;
+  font-size: 22px;
+  font-weight: bold;
+  padding-left: 8px;
+  vertical-align: middle;
+}
+
+.deleter:hover, .deleter:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -110,4 +122,12 @@ table.streched {
 
 .autosized {
   width: fit-content;
+}
+
+.item:hover {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }

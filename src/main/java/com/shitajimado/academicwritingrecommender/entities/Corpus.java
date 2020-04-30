@@ -1,6 +1,7 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +11,7 @@ public class Corpus {
     @Id
     private String id;
     private String name;
-
+    @DBRef
     private Set<Document> documents = new HashSet<>();
 
     public Corpus() {}
@@ -38,5 +39,9 @@ public class Corpus {
 
     public void setDocuments(Set<Document> documents) {
         this.documents = documents;
+    }
+
+    public void addDocument(Document document) {
+        this.documents.add(document);
     }
 }

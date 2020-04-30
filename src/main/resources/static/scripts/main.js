@@ -10,70 +10,174 @@ function concatAndEncode(data) {
     return ((parameters.length > 0) ? '?' : '') + parameters.join('&');
 }
 
-function makeRequest(url, method, ok, fail) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+function createEncoderFromString(format) {
+    switch (format) {
+        case 'json': 
+            return new class {
+                params() { return ''; }
+                encode(data) { return JSON.stringify(data); }
+                decode(data) { return JSON.parse(data ? data : '{}'); }
+                get header() { return 'application/json'; }
+            };
 
-    xhr.onload = function() {
-        if (xhr.status === 200 && ok) {
-            ok(xhr.response);
-        } else if (fail) {
-            fail();
+        case 'plain': 
+            return new class {
+                params() { return ''; }
+                encode(data) { return data; }
+                decode(data) { return data; }
+                get header() { return 'text/plain'; }
+            }
+
+        case 'urlencoded':
+            return new class {
+                params(data) { return concatAndEncode(data); }
+                encode() { return ''; }
+                decode() { return ''; }
+                get header() { return 'application/x-www-form-urlencoded'; 
+            }
         }
-    };
 
-    return xhr;
+
+        default: throw new Error(`Format ${format} is not supported`);
+    }
 }
 
-function getRequest(url, data, ok, fail) {
-    var xhr = makeRequest(url /*+ concatAndEncode(data)*/, 'GET', ok, fail);
+/* class Transformer {
+    constructor() {
+        if (new.target === Formatter) {
+            throw new TypeError('Cannot instantiate a member of class Transformer');
+        }
+    }
+
+    static fromString(format) {
+        switch (format) {
+            case 'json': return new JsonTransformer();
+            case 'plain': return new PlainTransformer();
+            default: throw new Error(`Format ${format} is not supported`);
+        }
+    }
+
+    encode() {
+        throw new Error('Not yet implemented');
+    }
+
+    decode() {
+        throw new Error('Not yet implemented');
+    }
+}
+
+class JsonTransformer extends Transformer {
+    constructor() {
+        super();
+    }
+
+    encode(data) {
+        return JSON.stringify(data);
+    }
+
+    decode(data) {
+        return JSON.parse(data);
+    }
+}
+
+class PlainTransformer extends Transformer {
+    constructor() {
+        super();
+    }
+
+    encode(data) {
+        return data;
+    }
+
+    decode(data) {
+        return data;
+    }
+} */
+
+function defaultValue(object, key, value) {
+    if (!object[key]) {
+        object[key] = value;
+    }
+}
+
+function makeRequest(method, url, data, settings = {}) {
+    const DefaultFormat = 'json';
     
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(data));
+    return new Promise((resolve, reject) => {
+        try {
+            const format = settings.format || { send: DefaultFormat, receive: DefaultFormat };
+            const sendEncoder = createEncoderFromString(format.send || DefaultFormat);
+            const receiveEncoder = createEncoderFromString(format.receive || DefaultFormat);
+                
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url + sendEncoder.params(data));
+        
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    resolve(receiveEncoder.decode(xhr.response));
+                } else {
+                    reject(new Error('Failed to fulfill the request: status ' + xhr.status));
+                }
+            };
+        
+            xhr.setRequestHeader('Content-Type', sendEncoder.header);
+            xhr.send(sendEncoder.encode(data));
+        } catch (err) {
+            reject(err);
+        }
+    });
 }
 
-function postRequest(url, data, ok, fail) {
-    var xhr = makeRequest(url, 'POST', ok, fail);
+function getRequest(url, data = {}, settings = {}) {
+    defaultValue(settings, 'format', {});
+    settings.format.send = 'urlencoded';
+
+    return makeRequest('GET', url, data, settings);
+}
+
+function postRequest(url, data = {}, settings = {}) {
+    return makeRequest('POST', url, data, settings);
+}
+
+function ajaxRequest(url, data = {}, settings = {}) {
+    return makeRequest('PUT', url, data, settings);
+}
+
+class View {
+    constructor() {
+        
+    }
+
+    registerModal(mainContent, modalBody, openButton) {
+        const content = document.getElementById(mainContent);
+        const modal = document.getElementById(modalBody);
+        const btn = document.getElementById(openButton);
+        const span = document.getElementById(modalBody + '-close');
     
-    xhr.setRequestHeader('Content-Type', 'application/json'); // 'application/x-www-form-urlencoded');
-    xhr.send(JSON.stringify(data)); //concatAndEncode(data));
-}
+        function openModal() {
+            modal.classList.remove('hidden');
+            content.classList.add('blurred');
+        }
 
-function ajaxRequest(url, data, ok, fail) {
-    var xhr = makeRequest(url, 'PUT', function(response) { 
-        ok(JSON.parse(response.responseText)); 
-    }, fail);
+        function closeModal() {
+            modal.classList.add('hidden');
+            content.classList.remove('blurred');
+        };
 
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(data));
-}
+        btn.onclick = openModal;
+        span.onclick = closeModal;
 
-function registerModal(mainContent, modalBody, openButton) {
-    const content = document.getElementById(mainContent);
-    const modal = document.getElementById(modalBody);
-    const btn = document.getElementById(openButton);
-    const span = document.getElementById(modalBody + '-close');
+        const oldHandler = window.onclick;
 
-    function closeModal() {
-        modal.style.display = "none";
-        content.classList.remove('blurred');
-    }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                closeModal();
+            }
 
-    // When the user clicks on the button, open the modal
-    btn.onclick = () => {
-        modal.style.display = "block";
-        content.classList.add('blurred');
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = () => {
-        closeModal();
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = (event) => {
-        if (event.target == modal) {
-            closeModal();
+            if (oldHandler) {
+                oldHandler(event);
+            }
         }
     }
 }

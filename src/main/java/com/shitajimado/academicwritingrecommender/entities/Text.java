@@ -1,5 +1,8 @@
-package com.shitajimado.academicwritingrecommender.core;
+package com.shitajimado.academicwritingrecommender.entities;
 
+import com.shitajimado.academicwritingrecommender.core.Annotation;
+import com.shitajimado.academicwritingrecommender.core.TextNode;
+import org.springframework.data.annotation.Id;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -10,10 +13,16 @@ import java.io.StringReader;
 import java.util.*;
 
 public class Text {
+    @Id
+    private String id;
     private List<TextNode> nodes;
     private Map<Long, Long> idMapping;
     private Set<String> annotationsSet = new HashSet<>();
     private List<Annotation> annotations = new ArrayList<>();
+
+    public Text() {
+
+    }
 
     public Text(Collection<TextNode> nodes) {
         this.nodes = new ArrayList<>(nodes);

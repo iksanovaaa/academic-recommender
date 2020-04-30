@@ -1,21 +1,21 @@
 package com.shitajimado.academicwritingrecommender.core;
 
+import com.shitajimado.academicwritingrecommender.entities.Text;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.time.temporal.TemporalQueries;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextWithNodeHandler extends DefaultHandler {
+public class TextHandler extends DefaultHandler {
     private List<TextNode> nodes = new ArrayList<>();
     private Long currentId;
 
     private boolean working = false;
 
-    public TextWithNodes extractTextWithNodes() {
-        return new TextWithNodes(nodes);
+    public Text extractTextWithNodes() {
+        return new Text(nodes);
     }
 
     @Override

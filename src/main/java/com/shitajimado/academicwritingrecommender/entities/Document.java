@@ -1,22 +1,29 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
+import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.net.URL;
 
 public class Document {
     @Id
     private String id;
+    private String corpusId;
     private String name;
     private String content;
-    private String htmlContent;
+    @DBRef
+    private Text annotatedText;
 
-    public Document() {}
+    public Document() {
 
-    public Document(String name, URL url, String content, String htmlContent) {
+    }
+
+    public Document(String corpusId, String name, String content, Text annotatedText) throws DocumentNotCreatedException {
+        this.corpusId = corpusId;
         this.name = name;
-        this.content = content;
-        this.htmlContent = htmlContent;
+        this.setContent(content);
+        this.annotatedText = annotatedText;
     }
 
     public String getName() {
@@ -35,12 +42,23 @@ public class Document {
         return content;
     }
 
-    public void setContent(String content) {
-        // ToDo: run transform to HTML
+    public void setContent(String content) throws DocumentNotCreatedException {
         this.content = content;
     }
 
-    public String getHtmlContent() {
-        return htmlContent;
+    public Text getAnnotatedText() {
+        return annotatedText;
+    }
+
+    public void setAnnotatedText(Text annotatedText) {
+        this.annotatedText = annotatedText;
+    }
+
+    public String getCorpusId() {
+        return corpusId;
+    }
+
+    public void setCorpusId(String corpusId) {
+        this.corpusId = corpusId;
     }
 }

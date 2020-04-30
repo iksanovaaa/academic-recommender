@@ -1,4 +1,7 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-public interface TextRepository {
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface TextRepository extends MongoRepository<Text, String> {
+
 }
