@@ -1,15 +1,10 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
 import com.shitajimado.academicwritingrecommender.core.Annotation;
+import com.shitajimado.academicwritingrecommender.core.StatisticsNode;
 import com.shitajimado.academicwritingrecommender.core.TextNode;
 import org.springframework.data.annotation.Id;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
 
 public class Text {
@@ -19,6 +14,7 @@ public class Text {
     private Map<Long, Long> idMapping;
     private Set<String> annotationsSet = new HashSet<>();
     private List<Annotation> annotations = new ArrayList<>();
+    private List<Annotation> annotationList = new ArrayList<>();
 
     public Text() {
 
@@ -39,6 +35,8 @@ public class Text {
 
     public void addAnnotation(Annotation annotation) {
         var type = annotation.getName();
+
+        annotationList.add(annotation);
 
         if (!annotationsSet.contains(type)) {
             annotationsSet.add(type);
@@ -80,5 +78,9 @@ public class Text {
 
     public String getId() {
         return id;
+    }
+
+    public List<Annotation> getAnnotationList() {
+        return this.annotationList;
     }
 }

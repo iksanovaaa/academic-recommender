@@ -54,8 +54,12 @@ class ItemList {
     traverse(cur, acc = {}) {
         ['clickable', 'content', 'deleter'].forEach(
             x => {
-                if (cur.classList.contains(x) && !acc[x]) {
-                    acc[x] = cur;
+                if (cur.classList.contains(x)) {
+                    if (!acc[x]) {
+                        acc[x] = []
+                    }
+
+                    acc[x].push(cur);
                     cur.classList.remove(x);
                 }
             }
@@ -71,21 +75,27 @@ class ItemList {
         
         const templateMap = this.traverse(template);
 
-        if (templateMap.content) {
-            templateMap.content.textContent = content;
-        }
-
-        //this.setContent(template, content);
-
-        template.id = ''; // this.baseId + '-' + (this.element.children.length + 1).toString();
-        //template.classList.remove('hidden');
+        template.id = '';
 
         // Add some extra info
         template.extras = {
             clickable: templateMap.clickable,
+            content: templateMap.content,
             deleter: templateMap.deleter,
             index: this.length
         };
+
+        const extras = template.extras;
+
+        if (extras.content) {
+            if (Array.isArray(content)) {
+                extras.content.forEach(
+                    (node, idx) => node.textContent = content[idx]
+                );
+            } else {
+                extras.content[0].textContent = content;
+            }
+        }
 
         return template;
     }
@@ -101,6 +111,7 @@ class IndexView extends View {
         this.corpusList = new ItemList('corpus');
         this.documentList = new ItemList('document');
         this.annotationList = new ItemList('annotation');
+        this.markerList = new ItemList('marker');
         this.annotationList.add('IPronoun');
 
         this.currentCorpus = -1;
@@ -109,76 +120,54 @@ class IndexView extends View {
         this.corpora = [];
         this.documents = [];
         this.annotations = [];
+        this.markers = [];
 
         this.fetchCorpora();
 
-        this.corpusList.add('Corpus 1');
+        /* this.corpusList.add('Corpus 1');
         this.documentList.addRange(['Document 1', 'Document 2', 'Document 3']);
         this.annotationList.addRange(['Annotation 1', 'Annotation 2', 'Annotation 3']);
+        this.markerList.addRange(['KOODA', 'GOTTI', 'BILLY']); */
 
-        var dropZone = document.getElementById('document-drop-zone');
-        dropZone.addEventListener('dragover', evt => this.handleDragOver(evt), false);
-        dropZone.addEventListener('drop', evt => this.handleFileSelect(evt), false);
+        // var dropZone = document.getElementById('document-drop-zone');
+
+        // A moment when a file is over the drag-and-drop zone
+        /* dropZone.addEventListener('dragover', evt => {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        }, false);
+        
+        // When a user actually drops the file
+        dropZone.addEventListener('drop', evt => {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            dropZone.innerText = 'File is loaded';
+            this.uploadedFile = evt.dataTransfer.files[0];
+        }, false); */
     }
 
     set colorizedHtml(value = '') {
         this.colorizedTextBlock.innerHTML = value;
     }
 
-    handleFileSelect(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        const file = evt.dataTransfer.files[0];
-
-        this.uploadedFile = () => {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                const documentInfo = { 
-                    corpusId: this.corpora[this.currentCorpus].id,
-                    name: document.getElementById('document-name').value,
-                    content: e.target.result
-                };
-
-                postRequest('api/create_document', documentInfo).then(
-                    () => this.fetchDocuments(this.currentCorpus)
-                ).catch(
-                    err => alert('Unable to create a document: ' + err.message)
-                );
-            };
-
-            reader.readAsText(file);
-        };
-    }
-
-    handleDragOver(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-    }
-
-    enableAnnotations(index) {
+    setAnnotation(index, value) {
         const className = 'color-' + (index + 1);
         const disabledClassName = className + '-disabled';
 
-        const elements = [].slice.call(document.getElementsByClassName(disabledClassName));
+        const elements = [].slice.call(
+            document.getElementsByClassName(value ? disabledClassName : className)
+        );
         
         elements.forEach(function(item, i, arr) {
-            item.classList.add(className);
-            item.classList.remove(disabledClassName);
-        });
-    }
-
-    disableAnnotations(index) {
-        const className = 'color-' + (index + 1);
-        const disabledClassName = className + '-disabled';
-
-        const elements = [].slice.call(document.getElementsByClassName(className));
-        
-        elements.forEach(function(item, i, arr) {
-            item.classList.add(disabledClassName);
-            item.classList.remove(className);
+            if (value) {
+                item.classList.add(className);
+                item.classList.remove(disabledClassName);
+            } else {
+                item.classList.add(disabledClassName);
+                item.classList.remove(className);
+            }
         });
     }
 
@@ -187,7 +176,7 @@ class IndexView extends View {
 
         for (let i = 0; i < controllers.length; ++i) {
             controllers[i].checked = false;
-            this.disableAnnotations(i);
+            this.setAnnotation(i, false);
         }
     }
 
@@ -202,7 +191,57 @@ class IndexView extends View {
     }
 
     createDocument() {
-        this.uploadedFile.call(this);
+        const dropZone = new Optional(document.getElementById('document-drop-zone'));
+
+        dropZone.map(
+            zone => zone.files[0]
+        ).ifPresent(
+            file => {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const documentInfo = { 
+                        corpusId: this.corpora[this.currentCorpus].id,
+                        name: document.getElementById('document-name').value,
+                        content: e.target.result
+                    };
+
+                    postRequest('api/create_document', documentInfo).then(
+                        () => this.fetchDocuments(this.currentCorpus)
+                    ).catch(
+                        err => alert('Unable to create a document: ' + err.message)
+                    );
+                };
+
+                reader.readAsText(file);
+            }
+        );
+
+        /* const dropZone = document.getElementById('document-drop-zone');
+
+        if (dropZone) {
+            const file = dropZone.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const documentInfo = { 
+                        corpusId: this.corpora[this.currentCorpus].id,
+                        name: document.getElementById('document-name').value,
+                        content: e.target.result
+                    };
+
+                    postRequest('api/create_document', documentInfo).then(
+                        () => this.fetchDocuments(this.currentCorpus)
+                    ).catch(
+                        err => alert('Unable to create a document: ' + err.message)
+                    );
+                };
+
+                reader.readAsText(file);
+            }
+        } */
     }
 
     fetchCorpora() {
@@ -213,13 +252,13 @@ class IndexView extends View {
                 this.updateLists('corpora', 'corpusList', reply).forEach(
                     (cur, idx) => {
                         // Set up the corpus list item
-                        cur.extras.clickable.onclick = event => {
+                        cur.extras.clickable[0].onclick = () => {
                             this.currentCorpus = idx;
                             this.fetchDocuments(this.currentCorpus);
                         };
 
                         // Set up the corpus deleter
-                        cur.extras.deleter.onclick = event => {
+                        cur.extras.deleter[0].onclick = () => {
                             this.deleteCorpus(idx);
                         };
                     }
@@ -242,12 +281,12 @@ class IndexView extends View {
                 this.updateLists('documents', 'documentList', reply).forEach(
                     (cur, idx) => {
                         // Set up the document list item
-                        cur.extras.clickable.onclick = event => {
+                        cur.extras.clickable[0].onclick = event => {
                             this.currentDocument = idx;
                             this.fetchText(this.currentDocument);
                         };
 
-                        cur.extras.deleter.onclick = event => {
+                        cur.extras.deleter[0].onclick = event => {
                             this.deleteDocument(idx);
                         };
                     }
@@ -273,16 +312,22 @@ class IndexView extends View {
 
                 this.updateLists('annotations', 'annotationList', reply.annotations).forEach(
                     (cur, idx) => {
-                        const checkbox = cur.extras.clickable;
-                        checkbox.checked = true;
+                        cur.extras.content[0].classList.add(`color-${idx + 1}`);
 
-                        checkbox.onchange = event => {
-                            if (checkbox.checked) {
-                                this.enableAnnotations(idx);
-                            } else {
-                                this.disableAnnotations(idx);
-                            }
-                        };
+                        const checkbox = cur.extras.clickable[0];
+                        checkbox.checked = true;
+                        checkbox.onchange = () => this.setAnnotation(idx, checkbox.checked);
+                    }
+                );
+
+                this.updateLists('markers', 'markerList', reply.annotationList).forEach(
+                    (cur, idx) => {
+                        const contents = cur.extras.content;
+                        const marker = reply.annotationList[idx];
+
+                        contents[0].classList.add(marker.type);
+                        contents[1].textContent = marker.startNode;
+                        contents[2].textContent = marker.endNode;
                     }
                 );
             },
@@ -329,7 +374,7 @@ class IndexView extends View {
         this[list].clear();
         
         return this[list].addRange(
-            this[cache].map((cur, idx, self) => `${idx}: ${cur.name}`)
+            this[cache].map(cur => `${cur.name}`)
         );
     }
 

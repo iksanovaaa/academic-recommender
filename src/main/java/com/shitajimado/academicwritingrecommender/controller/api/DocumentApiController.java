@@ -30,10 +30,9 @@ public class DocumentApiController {
         var saved = documentRepository.save(document);
 
         corpusRepository.findById(document.getCorpusId()).map(
-                corpus -> {
-                    corpus.addDocument(saved);
-                    return corpusRepository.save(corpus);
-                }
+                corpus -> corpus.addDocument(saved)
+        ).map(
+                corpus -> corpusRepository.save(corpus)
         ).orElseThrow(() -> new DocumentNotCreatedException("Unable to create a document"));
     }
 

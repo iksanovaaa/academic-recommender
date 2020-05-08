@@ -35,12 +35,14 @@ public class Corpus {
         return documents;
     }
 
-    public void addDocument(Document document) {
+    public Corpus addDocument(Document document) {
         this.documents.add(document.getId());
         document.setCorpusId(this.id);
+        return this;
     }
 
-    public void removeDocument(Document document) {
+    public Corpus removeDocument(Document document) {
         this.documents.remove(document.getId());
+        return this;
     }
 }

@@ -30,7 +30,7 @@
                     <p><i class="fa fa-refresh fa-spin"></i></p>
                 </div>
                 <div id="new-corpus" class="center dotted-border pointer">
-                    <a>New corpus</a>
+                    New corpus
                 </div>
             </div>
             
@@ -47,7 +47,7 @@
                     <p><i class="fa fa-refresh fa-spin"></i></p>
                 </div>
                 <div id="new-document" class="center dotted-border pointer">
-                    <a>New document</a>
+                    New document
                 </div>
             </div>
 
@@ -77,9 +77,17 @@
                 <!--div th:each="annotation, status: ${annotations}" th:class="${annotation.type}" >
                     <input class="controller" type="checkbox" th:text="${annotation.name}" th:onclick="'indexView.controllerClicked(this, ' + ${status.index} + ')'" checked>
                 </div-->
-                <div class="center dotted-border pointer">
-                    <a onclick="indexView.disableAll()">Disable all</a>
+                <div class="center dotted-border pointer" onclick="indexView.disableAll()">
+                    Disable all
                 </div>
+            </div>
+        </div>
+        <div class="dotted-border">
+            <div class="center">
+                <h3>Annotation List</h3>
+            </div>
+            <div id="marker-list">
+
             </div>
         </div>
     </div>
@@ -100,7 +108,8 @@
             <span class="close" id="document-modal-close">&times;</span>
             <h2>Document:</h2>
             <p>Name: <input id='document-name'></p>
-            <div id="document-drop-zone" class="dotted-border autosized">Drop your file here</div>
+            <!-- div id="document-drop-zone" class="dotted-border autosized">Drop your file here</div -->
+            <p>Content: <input id="document-drop-zone" accept="text/plain" type="file"></p>
             <p><div class="dotted-border pointer autosized" onclick="indexView.createDocument()">Save changes</div></p>
         </div>
     </div>
@@ -121,6 +130,15 @@
             <label class="item pointer">
                 <input class="clickable controller pointer" type="checkbox" checked>
                 <span class="content"></span>
+            </label>
+        </div>
+
+        <!-- Annotation list (bottom) item template -->
+        <div id="marker-template">
+            <label class="item">
+                <span class="content item"></span>
+                <span class="content item"></span>
+                <span class="content item"></span>
             </label>
         </div>
     </div>

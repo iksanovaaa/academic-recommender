@@ -33,10 +33,8 @@ function createEncoderFromString(format) {
                 params(data) { return concatAndEncode(data); }
                 encode() { return ''; }
                 decode() { return ''; }
-                get header() { return 'application/x-www-form-urlencoded'; 
+                get header() { return 'application/x-www-form-urlencoded'; }
             }
-        }
-
 
         default: throw new Error(`Format ${format} is not supported`);
     }
@@ -179,5 +177,95 @@ class View {
                 oldHandler(event);
             }
         }
+    }
+}
+
+class MissingValueError extends Error {
+    constructor(message, cause) {
+        super(message);
+
+        this.cause = cause;
+        this.name = 'MissingValueError';
+        this.stack = cause.stack;
+    }
+}
+
+const nullObject = {};
+
+class Optional {
+    constructor(value) {
+        if (value === undefined || value === null) {
+            value = nullObject;
+        }
+
+        this._value = value;
+    }
+
+    get value() {
+        if (this.present) {
+            return this._value;
+        } else {
+            throw new MissingValueError('No value set for the Optional instance');
+        }
+    }
+
+    get present() {
+        return this._value !== nullObject;
+    }
+
+    static of(value) {
+        return new Optional(value);
+    }
+
+    toString() {
+        return this.map(value => value).orElse('<empty>');
+        
+        /* try {
+            return this.value;
+        } catch (err) {
+            return '<empty>';
+        } */
+    }
+
+    generateMap(resolve, reject = () => new Optional()) {
+        try {
+            return resolve();
+        } catch (err) {
+            if (err.name = 'MissingValueError') {
+                return reject();
+            } else {
+                throw err;
+            }
+        }
+    }
+
+    filter(predicate) {
+        return this.generateMap(() => {
+            if (predicate(this.value)) {
+                return new Optional(mapper(this.value))
+            } else {
+                return new Optional();
+            }
+        });
+    }
+
+    map(mapper) {
+        return this.generateMap(() => new Optional(mapper(this.value)));
+    }
+
+    flatMap(mapper) {
+        return this.generateMap(() => mapper(this.value));
+    }
+
+    ifPresent(consumer) {
+        this.generateMap(() => consumer(this.value));
+    }
+
+    orElse(other) {
+        this.orElseGet(() => other);
+    }
+
+    orElseGet(supplier) {
+        this.generateMap(() => this.value, supplier);
     }
 }
