@@ -60,7 +60,7 @@
                 <div id="text-loading" class="center hidden">
                     <p><i class="fa fa-refresh fa-spin"></i></p>
                 </div>
-                <div id="colorized-html">
+                <div id="colorized-html" class="vertical-scroll">
                     <!-- p>No text yet.</p -->
                 </div>
                 <!--[(${colorizedHtml})]-->
@@ -71,7 +71,7 @@
                 <div class="center">
                     <h3>Annotations</h3>
                 </div>
-                <div id="annotation-list">
+                <div id="annotation-list" class="vertical-scroll">
                     <!-- To be filled with prototypes -->
                 </div>
                 <!--div th:each="annotation, status: ${annotations}" th:class="${annotation.type}" >
@@ -86,35 +86,38 @@
             <div class="center">
                 <h3>Annotation List</h3>
             </div>
-            <div id="marker-list">
+            <div id="marker-list" class="vertical-scroll">
 
             </div>
         </div>
     </div>
 
     <!-- New Corpus modal window -->
-    <div id="corpus-modal" class="modal hidden">
+    <div id="corpus-modal" class="modal" hidden>
         <div class="modal-content">
             <span class="close" id="corpus-modal-close">&times;</span>
             <h2>Corpus:</h2>
-            <p>Name: <input id='corpus-name'></p>
-            <p><div class='dotted-border pointer autosized' onclick="indexView.createCorpus()">Save changes</div></p>
+            <form>
+                <p><label>Name: <input id='corpus-name' name="name"></label></p>
+                <p><div class='autosized dotted-border pointer submit' onclick="indexView.createCorpus()">Save changes</div></p>
+            </form>
         </div>
     </div>
 
     <!-- New Document modal window -->
-    <div id="document-modal" class="modal hidden">
+    <div id="document-modal" class="modal" hidden>
         <div class="modal-content">
             <span class="close" id="document-modal-close">&times;</span>
             <h2>Document:</h2>
-            <p>Name: <input id='document-name'></p>
-            <!-- div id="document-drop-zone" class="dotted-border autosized">Drop your file here</div -->
-            <p>Content: <input id="document-drop-zone" accept="text/plain" type="file"></p>
-            <p><div class="dotted-border pointer autosized" onclick="indexView.createDocument()">Save changes</div></p>
+            <form>
+                <p><label>Name: <input id='document-name' name="name"></label></p>
+                <p><label>Content: <input id="document-drop-zone" name="content" accept="text/plain" type="file"></label></p>
+                <p><div class="autosized dotted-border pointer submit" onclick="indexView.createDocument()">Save changes</div></p>
+            </form>
         </div>
     </div>
 
-    <div class="hidden">
+    <div hidden>
         <!-- Corpus item template -->
         <div id="corpus-template">
             <span class="clickable content item pointer"></span><span class="item pointer deleter">&times;</span>

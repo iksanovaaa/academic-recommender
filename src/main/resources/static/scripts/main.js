@@ -40,58 +40,6 @@ function createEncoderFromString(format) {
     }
 }
 
-/* class Transformer {
-    constructor() {
-        if (new.target === Formatter) {
-            throw new TypeError('Cannot instantiate a member of class Transformer');
-        }
-    }
-
-    static fromString(format) {
-        switch (format) {
-            case 'json': return new JsonTransformer();
-            case 'plain': return new PlainTransformer();
-            default: throw new Error(`Format ${format} is not supported`);
-        }
-    }
-
-    encode() {
-        throw new Error('Not yet implemented');
-    }
-
-    decode() {
-        throw new Error('Not yet implemented');
-    }
-}
-
-class JsonTransformer extends Transformer {
-    constructor() {
-        super();
-    }
-
-    encode(data) {
-        return JSON.stringify(data);
-    }
-
-    decode(data) {
-        return JSON.parse(data);
-    }
-}
-
-class PlainTransformer extends Transformer {
-    constructor() {
-        super();
-    }
-
-    encode(data) {
-        return data;
-    }
-
-    decode(data) {
-        return data;
-    }
-} */
-
 function defaultValue(object, key, value) {
     if (!object[key]) {
         object[key] = value;
@@ -141,45 +89,6 @@ function ajaxRequest(url, data = {}, settings = {}) {
     return makeRequest('PUT', url, data, settings);
 }
 
-class View {
-    constructor() {
-        
-    }
-
-    registerModal(mainContent, modalBody, openButton) {
-        const content = document.getElementById(mainContent);
-        const modal = document.getElementById(modalBody);
-        const btn = document.getElementById(openButton);
-        const span = document.getElementById(modalBody + '-close');
-    
-        function openModal() {
-            modal.classList.remove('hidden');
-            content.classList.add('blurred');
-        }
-
-        function closeModal() {
-            modal.classList.add('hidden');
-            content.classList.remove('blurred');
-        };
-
-        btn.onclick = openModal;
-        span.onclick = closeModal;
-
-        const oldHandler = window.onclick;
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = (event) => {
-            if (event.target == modal) {
-                closeModal();
-            }
-
-            if (oldHandler) {
-                oldHandler(event);
-            }
-        }
-    }
-}
-
 class MissingValueError extends Error {
     constructor(message, cause) {
         super(message);
@@ -219,12 +128,6 @@ class Optional {
 
     toString() {
         return this.map(value => value).orElse('<empty>');
-        
-        /* try {
-            return this.value;
-        } catch (err) {
-            return '<empty>';
-        } */
     }
 
     generateMap(resolve, reject = () => new Optional()) {
@@ -242,7 +145,7 @@ class Optional {
     filter(predicate) {
         return this.generateMap(() => {
             if (predicate(this.value)) {
-                return new Optional(mapper(this.value))
+                return new Optional(this.value)
             } else {
                 return new Optional();
             }
@@ -267,5 +170,149 @@ class Optional {
 
     orElseGet(supplier) {
         this.generateMap(() => this.value, supplier);
+    }
+}
+
+function traverse(root) {
+    const stack = [root];
+    const acc = {
+        classes: {},
+        ids: {},
+        names: {}
+    };
+
+    while (stack.length > 0) {
+        const cur = stack.pop();
+
+        [...cur.classList].forEach(
+            name => {
+                const place = acc.classes;
+
+                if (place[name]) {
+                    place[name].push(cur);
+                } else {
+                    place[name] = [cur];
+                }
+            }
+        );
+
+        if (cur.id) {
+            acc.ids[cur.id] = cur;
+        }
+
+        if (cur.name) {
+            acc.names[cur.name] = cur;
+        }
+
+        [...cur.children].forEach(
+            child => stack.push(child)
+        );
+    }
+
+    return acc;
+}
+
+function setClass(element, className, on) {
+    if (on) {
+        element.classList.add(className);
+    } else {
+        element.classList.remove(className);
+    }
+}
+
+function isFunction(functionToCheck) {
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+class Modal {
+    constructor(rootId) {
+        this._root = document.getElementById(rootId);
+        this._tree = traverse(this._root);
+
+        tree.classes.close.forEach(x => x.onclick = () => this.hide());
+        tree.classes.submit.forEach(x => x.onclick = () => this.submit());
+
+        this._backgroundClick = event => {
+            if (event.target === this._root) {
+                this.hide();
+            }
+        };
+
+        this._onSubmit = new Optional();
+    }
+    
+    set onSubmit(value) {
+        if (!isFunction(value)) {
+            throw new Error('Not a function');
+        }
+
+        this._onSubmit = new Optional(value);
+    }
+
+    show() {
+        this._root.hidden = false;
+        window.addEventListener('click', this._backgroundClick);
+    }
+
+    hide() {
+        this._root.hidden = true;
+        window.removeEventListener('click', this._backgroundClick);
+    }
+
+    submit() {
+        const form = Object.getOwnPropertyNames(this._tree).map(
+            key => this._tree[key].value
+        );
+
+        try {
+            this._onSubmit.ifPresent(callback => callback(form));
+        } catch (e) {
+            throw e;
+        } finally {
+            this.hide();
+        }
+    }
+}
+
+class View {
+    constructor() {
+        
+    }
+
+    registerModal(mainContent, modalBody, openButton) {
+        const content = document.getElementById(mainContent);
+        const modal = document.getElementById(modalBody);
+        const btn = document.getElementById(openButton);
+        const span = document.getElementById(modalBody + '-close');
+    
+        function openModal() {
+            modal.hidden = false;
+            //modal.classList.remove('hidden');
+            content.classList.add('blurred');
+        }
+
+        function closeModal() {
+            modal.hidden = true;
+            //modal.classList.add('hidden');
+            content.classList.remove('blurred');
+        }
+
+        btn.onclick = openModal;
+        span.onclick = closeModal;
+
+        const oldHandler = new Optional(window.onclick);
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                closeModal();
+            }
+
+            oldHandler.ifPresent((handler) => handler(event));
+
+            /* if (oldHandler) {
+                oldHandler(event);
+            } */
+        };
     }
 }

@@ -112,7 +112,6 @@ class IndexView extends View {
         this.documentList = new ItemList('document');
         this.annotationList = new ItemList('annotation');
         this.markerList = new ItemList('marker');
-        this.annotationList.add('IPronoun');
 
         this.currentCorpus = -1;
         this.currentDocument = -1;
@@ -123,29 +122,6 @@ class IndexView extends View {
         this.markers = [];
 
         this.fetchCorpora();
-
-        /* this.corpusList.add('Corpus 1');
-        this.documentList.addRange(['Document 1', 'Document 2', 'Document 3']);
-        this.annotationList.addRange(['Annotation 1', 'Annotation 2', 'Annotation 3']);
-        this.markerList.addRange(['KOODA', 'GOTTI', 'BILLY']); */
-
-        // var dropZone = document.getElementById('document-drop-zone');
-
-        // A moment when a file is over the drag-and-drop zone
-        /* dropZone.addEventListener('dragover', evt => {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy';
-        }, false);
-        
-        // When a user actually drops the file
-        dropZone.addEventListener('drop', evt => {
-            evt.stopPropagation();
-            evt.preventDefault();
-
-            dropZone.innerText = 'File is loaded';
-            this.uploadedFile = evt.dataTransfer.files[0];
-        }, false); */
     }
 
     set colorizedHtml(value = '') {
@@ -216,32 +192,6 @@ class IndexView extends View {
                 reader.readAsText(file);
             }
         );
-
-        /* const dropZone = document.getElementById('document-drop-zone');
-
-        if (dropZone) {
-            const file = dropZone.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = (e) => {
-                    const documentInfo = { 
-                        corpusId: this.corpora[this.currentCorpus].id,
-                        name: document.getElementById('document-name').value,
-                        content: e.target.result
-                    };
-
-                    postRequest('api/create_document', documentInfo).then(
-                        () => this.fetchDocuments(this.currentCorpus)
-                    ).catch(
-                        err => alert('Unable to create a document: ' + err.message)
-                    );
-                };
-
-                reader.readAsText(file);
-            }
-        } */
     }
 
     fetchCorpora() {
@@ -346,7 +296,7 @@ class IndexView extends View {
                 this.corpora.splice(corpusIdx, 1);
                 this.corpusList.remove(corpusIdx);
 
-                // ToDo: can be optimized (performed locally)
+                // Performed locally
                 //this.fetchCorpora();
             }
         );
@@ -361,7 +311,7 @@ class IndexView extends View {
                 this.documents.splice(documentIdx, 1);
                 this.documentList.remove(documentIdx);
 
-                // ToDo: can be optimized (performed locally)
+                // Performed locally
                 // this.fetchDocuments();
             }
         );

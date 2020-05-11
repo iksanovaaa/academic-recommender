@@ -5,9 +5,16 @@
   font-family: 'Raleway', sans-serif;
 }
 
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
 .container {
   display: flex;
-  min-height: 600px;
+  /* min-height: 600px; */
+  /*height: 600px;*/
+  height: 65%;
   border-collapse: collapse;
   /* border: 2px dotted #ddd; */
   /* column-count: 4;
@@ -130,4 +137,21 @@ table.stretched {
 
 .hidden {
   display: none;
+}
+
+.vertical-scroll {
+  overflow-y: scroll;
+  height: 80%;
+}
+
+.progress {
+  cursor: progress;
+}
+
+.wait {
+  cursor: wait;
+}
+
+#content {
+  height: 70%;
 }
