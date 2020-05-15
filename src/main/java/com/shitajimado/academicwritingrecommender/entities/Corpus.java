@@ -1,11 +1,13 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
+import com.shitajimado.academicwritingrecommender.core.dtos.CorpusDto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 public class Corpus {
     @Id
@@ -19,9 +21,15 @@ public class Corpus {
         this.name = name;
     }
 
+    public Corpus(CorpusDto corpusDto) {
+        this.name = corpusDto.getName();
+    }
+
     public String getId() {
         return id;
     }
+
+    public void setId(String id) { this.id = id; }
 
     public String getName() {
         return name;
@@ -33,6 +41,10 @@ public class Corpus {
 
     public Set<String> getDocuments() {
         return documents;
+    }
+
+    public void setDocuments(Set<String> documents) {
+        this.documents = documents;
     }
 
     public Corpus addDocument(Document document) {

@@ -1,9 +1,11 @@
 package com.shitajimado.academicwritingrecommender.controller.api;
 
+import com.shitajimado.academicwritingrecommender.core.dtos.CorpusDto;
 import com.shitajimado.academicwritingrecommender.entities.Corpus;
 import com.shitajimado.academicwritingrecommender.entities.CorpusRepository;
 import com.shitajimado.academicwritingrecommender.entities.Document;
 import com.shitajimado.academicwritingrecommender.entities.DocumentRepository;
+import com.shitajimado.academicwritingrecommender.services.CorpusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +18,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "api", consumes = "application/json", produces = "application/json")
 public class CorpusApiController {
-    @Autowired private CorpusRepository corpusRepository;
-    @Autowired private DocumentRepository documentRepository;
+    @Autowired
+    private CorpusService corpusService;
 
     @PostMapping("/create_corpus")
-    public void createCorpus(@RequestBody Corpus corpus) {
-        corpusRepository.save(corpus);
+    public void createCorpus(@RequestBody CorpusDto corpusDto) {
+        corpusService.createCorpus(corpusDto);
     }
 
     @GetMapping(value = "/read_corpus", consumes = "application/x-www-form-urlencoded")
     public List<Corpus> readCorpus() {
-        return corpusRepository.findAll();
+        return corpusService.readCorpora();
     }
 
     @PostMapping("/update_corpus")
@@ -36,8 +38,6 @@ public class CorpusApiController {
 
     @PostMapping("/delete_corpus")
     public void deleteCorpus(@RequestBody Corpus corpus) {
-        var docs = documentRepository.findAllById(corpus.getDocuments());
-        documentRepository.deleteAll(docs);
-        corpusRepository.delete(corpus);
+        corpusService.deleteCorpus(corpus);
     }
 }

@@ -41,18 +41,14 @@ div.column {
 }
 
 div.column:nth-of-type(1) { 
-  flex: 0.7; 
-}
-
-div.column:nth-of-type(2) { 
   flex: 0.9; 
 }
 
-div.column:nth-of-type(3) { 
+div.column:nth-of-type(2) { 
   flex: 3; 
 }
 
-div.column:nth-of-type(4) { 
+div.column:nth-of-type(3) { 
   flex: 0.9; 
 }
 
@@ -141,7 +137,7 @@ table.stretched {
 
 .vertical-scroll {
   overflow-y: scroll;
-  height: 80%;
+  height: 75%;
 }
 
 .progress {
@@ -152,6 +148,10 @@ table.stretched {
   cursor: wait;
 }
 
+div.padded {
+  padding-left: 10px;
+}
+
 #content {
-  height: 70%;
+  height: 100%;
 }

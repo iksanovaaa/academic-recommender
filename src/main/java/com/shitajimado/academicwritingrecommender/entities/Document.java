@@ -1,5 +1,6 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
+import com.shitajimado.academicwritingrecommender.core.dtos.DocumentDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -11,7 +12,6 @@ public class Document {
     private String id;
     private String corpusId;
     private String name;
-    private String content;
     private String textId;
 
     public Document() {
@@ -21,8 +21,12 @@ public class Document {
     public Document(String name, String content, Text annotatedText) throws DocumentNotCreatedException {
         this.corpusId = "";
         this.name = name;
-        this.setContent(content);
         this.textId = annotatedText.getId();
+    }
+
+    public Document(DocumentDto documentDto) {
+        this.corpusId = documentDto.getCorpusId();
+        this.name = documentDto.getName();
     }
 
     public String getName() {
@@ -35,14 +39,6 @@ public class Document {
 
     public String getId() {
         return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) throws DocumentNotCreatedException {
-        this.content = content;
     }
 
     public String getCorpusId() {

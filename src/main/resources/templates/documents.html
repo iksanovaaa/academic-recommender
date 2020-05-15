@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Academic Writing Analysis Application</title>
+    <!--link href="https://fonts.googleapis.com/css2?family=Belleza&display=swap" rel="stylesheet"-->
+    <!--link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet"-->
+    <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
+    <link href="../static/css/annotations.css" th:href="@{css/annotations.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
+    <script src="../static/scripts/documents.js" th:src="@{scripts/documents.js}"></script>
+</head>
+<body>
+    <div id='content'>
+        <div class="center">
+            <h2>Linguistic Research System</h2>
+        </div>
+        <div class="container">
+            <!-- Documents in the corpus column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Documents</h3>
+                </div>
+                <div id="document-list">
+                    <!-- To be filled with prototypes -->
+                </div>
+                <!-- Document loading icon -->
+                <div id="documents-loading" class="center" hidden>
+                    <p><i class="fa fa-refresh fa-spin"></i></p>
+                </div>
+                <div id="new-document" class="center dotted-border pointer">
+                    New document
+                </div>
+            </div>
+
+            <!-- Colorized text column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Colorized text</h3>
+                </div>
+                <!-- Text loading icon -->
+                <div id="text-loading" class="center" hidden>
+                    <p><i class="fa fa-refresh fa-spin"></i></p>
+                </div>
+                <div id="colorized-html" class="vertical-scroll">
+                    <!-- p>No text yet.</p -->
+                </div>
+                <!--[(${colorizedHtml})]-->
+            </div>
+
+            <!-- Annotation checkboxes' column -->
+            <div class="column dotted-border">
+                <div class="center">
+                    <h3>Annotations</h3>
+                </div>
+                <div id="annotation-list" class="vertical-scroll">
+                    <!-- To be filled with prototypes -->
+                </div>
+                <!--div th:each="annotation, status: ${annotations}" th:class="${annotation.type}" >
+                    <input class="controller" type="checkbox" th:text="${annotation.name}" th:onclick="'indexView.controllerClicked(this, ' + ${status.index} + ')'" checked>
+                </div-->
+                <div class="center dotted-border pointer" onclick="documentsView.disableAll()">
+                    Disable all
+                </div>
+            </div>
+        </div>
+        <div class="dotted-border">
+            <div class="center">
+                <h3>Annotation List</h3>
+            </div>
+            <div id="marker-list" class="vertical-scroll">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- New Document modal window -->
+    <div id="document-modal" class="modal" hidden>
+        <div class="modal-content">
+            <span class="close" id="document-modal-close">&times;</span>
+            <h2>Document:</h2>
+            <form>
+                <p><label>Name: <input id='document-name' name="name"></label></p>
+                <p><label>Content: <input id="document-drop-zone" name="content" accept="text/plain" type="file" multiple></label></p>
+                <p><div class="autosized dotted-border pointer submit">Save changes</div></p>
+                <p><div class="autosized dotted-border pointer" onclick="documentsView.createDocuments()">Upload multiple documents</div></p>
+            </form>
+        </div>
+    </div>
+
+    <div hidden>
+        <!-- Document item template -->
+        <div id="document-template">
+            <span class="clickable content item pointer"></span><span class="item pointer deleter">&times;</span>
+        </div>
+
+        <!-- Annotation item template -->
+        <div id="annotation-template">
+            <label class="item pointer">
+                <input class="clickable controller pointer" type="checkbox" checked>
+                <span class="content"></span>
+            </label>
+        </div>
+
+        <!-- Annotation list (bottom) item template -->
+        <div id="marker-template">
+            <label class="item">
+                <span class="content item marker"></span>
+                <span class="content item"></span>
+                <span class="content item"></span>
+            </label>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        const corpus = /*[[${corpus}]]*/ { id: '5eb579f67ec03a437980cbd3' };
+    /*]]>*/
+    </script>
+    <script>
+        const documentsView = new DocumentsView(corpus);
+    </script>
+</body>
+</html>

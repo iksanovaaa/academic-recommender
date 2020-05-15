@@ -173,6 +173,14 @@ class Optional {
     }
 }
 
+function isFunction(functionToCheck) {
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+function isString(object) {
+    return typeof object === 'string';
+}
+
 function traverse(root) {
     const stack = [root];
     const acc = {
@@ -200,7 +208,7 @@ function traverse(root) {
             acc.ids[cur.id] = cur;
         }
 
-        if (cur.name) {
+        if (cur.name && isString(cur.name)) {
             acc.names[cur.name] = cur;
         }
 
@@ -220,17 +228,13 @@ function setClass(element, className, on) {
     }
 }
 
-function isFunction(functionToCheck) {
-    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
-}
-
 class Modal {
     constructor(rootId) {
         this._root = document.getElementById(rootId);
         this._tree = traverse(this._root);
 
-        tree.classes.close.forEach(x => x.onclick = () => this.hide());
-        tree.classes.submit.forEach(x => x.onclick = () => this.submit());
+        this._tree.classes.close.forEach(x => x.onclick = () => this.hide());
+        this._tree.classes.submit.forEach(x => x.onclick = () => this.submit());
 
         this._backgroundClick = event => {
             if (event.target === this._root) {
@@ -260,8 +264,10 @@ class Modal {
     }
 
     submit() {
-        const form = Object.getOwnPropertyNames(this._tree).map(
-            key => this._tree[key].value
+        const form = {};
+
+        Object.getOwnPropertyNames(this._tree.names).forEach(
+            key => form[key] = this._tree.names[key].value
         );
 
         try {
@@ -274,45 +280,169 @@ class Modal {
     }
 }
 
+class ItemList {
+    constructor(id) {
+        this.baseId = id;
+        this.element = document.getElementById(id + '-list');
+        this._items = [];
+    }
+
+    get items() {
+        return this._items;
+    }
+
+    get length() {
+        return this._items.length;
+    }
+
+    add(childContent) {
+        const template = this.copyAndSetupTemplate(childContent);
+
+        this.element.appendChild(template);
+
+        // Save in an internal array of elements
+        this._items.push(template);
+
+        return template;
+    }
+
+    addRange(range) {
+        return range.map(x => this.add(x));
+    }
+
+    remove(index) {
+        if (index >= 0 && index < this._items.length) {
+            this.element.removeChild(this._items[index]);
+            this._items.splice(index, 1);
+        }
+    }
+
+    clear() {
+        this._items.forEach(x => this.element.removeChild(x));
+        this._items = [];
+    }
+
+    setContent(node, content) {
+        if (node.classList.contains('content')) {
+            node.classList.remove('content');
+            node.textContent = content;
+            return;
+        }
+
+        const children = [...node.children];
+        children.forEach(x => this.setContent(x, content));
+    }
+
+    traverse(cur, acc = {}) {
+        ['clickable', 'content', 'deleter'].forEach(
+            x => {
+                if (cur.classList.contains(x)) {
+                    if (!acc[x]) {
+                        acc[x] = []
+                    }
+
+                    acc[x].push(cur);
+                    cur.classList.remove(x);
+                }
+            }
+        );
+
+        [...cur.children].forEach(x => this.traverse(x, acc));
+
+        return acc;
+    }
+
+    copyAndSetupTemplate(content) {
+        const template = document.getElementById(this.baseId + '-template').cloneNode(true);
+        
+        const templateMap = this.traverse(template);
+
+        template.id = '';
+
+        // Add some extra info
+        template.extras = {
+            clickable: templateMap.clickable,
+            content: templateMap.content,
+            deleter: templateMap.deleter,
+            index: this.length
+        };
+
+        const extras = template.extras;
+
+        if (extras.content) {
+            if (Array.isArray(content)) {
+                extras.content.forEach(
+                    (node, idx) => node.textContent = content[idx]
+                );
+            } else {
+                extras.content[0].textContent = content;
+            }
+        }
+
+        return template;
+    }
+}
+
 class View {
     constructor() {
         
     }
 
-    registerModal(mainContent, modalBody, openButton) {
-        const content = document.getElementById(mainContent);
-        const modal = document.getElementById(modalBody);
-        const btn = document.getElementById(openButton);
-        const span = document.getElementById(modalBody + '-close');
-    
-        function openModal() {
-            modal.hidden = false;
-            //modal.classList.remove('hidden');
-            content.classList.add('blurred');
-        }
+    updateLists(cache, list, newValues) {
+        // Save the documents of the corpus in the field
+        this[cache] = newValues;
 
-        function closeModal() {
-            modal.hidden = true;
-            //modal.classList.add('hidden');
-            content.classList.remove('blurred');
-        }
-
-        btn.onclick = openModal;
-        span.onclick = closeModal;
-
-        const oldHandler = new Optional(window.onclick);
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = (event) => {
-            if (event.target == modal) {
-                closeModal();
-            }
-
-            oldHandler.ifPresent((handler) => handler(event));
-
-            /* if (oldHandler) {
-                oldHandler(event);
-            } */
-        };
+        this[list].clear();
+        
+        return this[list].addRange(
+            this[cache].map(cur => `${cur.name}`)
+        );
     }
+    
+    startLoading(listName) {
+        const loading = document.getElementById(listName + '-loading');
+        loading.hidden = false;
+    }
+
+    finishLoading(listName) {
+        const loading = document.getElementById(listName + '-loading');
+        loading.hidden = true;
+    }
+
+    // registerModal(mainContent, modalBody, openButton) {
+    //     const content = document.getElementById(mainContent);
+    //     const modal = document.getElementById(modalBody);
+    //     const btn = document.getElementById(openButton);
+    //     const span = document.getElementById(modalBody + '-close');
+    
+    //     function openModal() {
+    //         modal.hidden = false;
+    //         //modal.classList.remove('hidden');
+    //         content.classList.add('blurred');
+    //     }
+
+    //     function closeModal() {
+    //         modal.hidden = true;
+    //         //modal.classList.add('hidden');
+    //         content.classList.remove('blurred');
+    //     }
+
+    //     btn.onclick = openModal;
+    //     span.onclick = closeModal;
+
+    //     const oldHandler = new Optional(window.onclick);
+
+    //     // When the user clicks anywhere outside of the modal, close it
+    //     window.onclick = (event) => {
+    //         if (event.target == modal) {
+    //             closeModal();
+    //         }
+
+    //         oldHandler.ifPresent((handler) => handler(event));
+
+    //         /* if (oldHandler) {
+    //             oldHandler(event);
+    //         } */
+    //     };
+    // }
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 @Controller
 public class IndexController {
     @GetMapping(value="/index")
-    public String index(Model model) throws IOException, GateException, SAXException, ParserConfigurationException {
+    public String index(Model model) {
         //model.addAttribute("name", filename);
 
         return "index";
