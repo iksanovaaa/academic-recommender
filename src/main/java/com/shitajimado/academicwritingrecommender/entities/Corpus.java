@@ -1,11 +1,9 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-import com.shitajimado.academicwritingrecommender.core.dtos.CorpusDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.CorpusDto;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -22,7 +20,7 @@ public class Corpus {
     }
 
     public Corpus(CorpusDto corpusDto) {
-        this.name = corpusDto.getName();
+        this(corpusDto.getName());
     }
 
     public String getId() {

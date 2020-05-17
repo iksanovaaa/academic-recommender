@@ -1,16 +1,26 @@
 package com.shitajimado.academicwritingrecommender.controller.api;
 
+import com.shitajimado.academicwritingrecommender.core.exceptions.UserAlreadyExistsException;
+import com.shitajimado.academicwritingrecommender.core.exceptions.UserNotExistsException;
 import com.shitajimado.academicwritingrecommender.entities.User;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.shitajimado.academicwritingrecommender.entities.dtos.UserDto;
+import com.shitajimado.academicwritingrecommender.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "api", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "api", consumes = "application/x-www-form-urlencoded", produces = "application/json")
 public class UserApiController {
-    @PostMapping(value = "/create_user")
-    public void createUser(@RequestBody User user) {
+    @Autowired
+    private UserService userService;
 
+    @PostMapping(value = "/register")
+    public User register(@ModelAttribute UserDto userDto) throws UserAlreadyExistsException {
+        return userService.register(userDto);
+    }
+
+    @PostMapping(value = "/login")
+    public User login(@ModelAttribute UserDto userDto) throws UserNotExistsException {
+        return userService.login(userDto);
     }
 }

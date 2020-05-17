@@ -1,9 +1,8 @@
 package com.shitajimado.academicwritingrecommender.services;
 
 import com.google.common.collect.Lists;
-import com.shitajimado.academicwritingrecommender.core.TextHelper;
-import com.shitajimado.academicwritingrecommender.core.dtos.DocumentDto;
-import com.shitajimado.academicwritingrecommender.core.dtos.TextDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.DocumentDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.TextDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import com.shitajimado.academicwritingrecommender.core.exceptions.TextNotPresentException;
 import com.shitajimado.academicwritingrecommender.entities.*;

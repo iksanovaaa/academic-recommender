@@ -126,8 +126,8 @@ class Optional {
         return new Optional(value);
     }
 
-    toString() {
-        return this.map(value => value).orElse('<empty>');
+    toString(other = '<empty>') {
+        return this.map(value => value).orElse(other);
     }
 
     generateMap(resolve, reject = () => new Optional()) {
@@ -165,11 +165,11 @@ class Optional {
     }
 
     orElse(other) {
-        this.orElseGet(() => other);
+        return this.orElseGet(() => other);
     }
 
     orElseGet(supplier) {
-        this.generateMap(() => this.value, supplier);
+        return this.generateMap(() => this.value, supplier);
     }
 }
 
@@ -408,41 +408,4 @@ class View {
         const loading = document.getElementById(listName + '-loading');
         loading.hidden = true;
     }
-
-    // registerModal(mainContent, modalBody, openButton) {
-    //     const content = document.getElementById(mainContent);
-    //     const modal = document.getElementById(modalBody);
-    //     const btn = document.getElementById(openButton);
-    //     const span = document.getElementById(modalBody + '-close');
-    
-    //     function openModal() {
-    //         modal.hidden = false;
-    //         //modal.classList.remove('hidden');
-    //         content.classList.add('blurred');
-    //     }
-
-    //     function closeModal() {
-    //         modal.hidden = true;
-    //         //modal.classList.add('hidden');
-    //         content.classList.remove('blurred');
-    //     }
-
-    //     btn.onclick = openModal;
-    //     span.onclick = closeModal;
-
-    //     const oldHandler = new Optional(window.onclick);
-
-    //     // When the user clicks anywhere outside of the modal, close it
-    //     window.onclick = (event) => {
-    //         if (event.target == modal) {
-    //             closeModal();
-    //         }
-
-    //         oldHandler.ifPresent((handler) => handler(event));
-
-    //         /* if (oldHandler) {
-    //             oldHandler(event);
-    //         } */
-    //     };
-    // }
 }

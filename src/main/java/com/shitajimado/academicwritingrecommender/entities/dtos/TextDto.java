@@ -1,4 +1,4 @@
-package com.shitajimado.academicwritingrecommender.core.dtos;
+package com.shitajimado.academicwritingrecommender.entities.dtos;
 
 public class TextDto {
     private String content;

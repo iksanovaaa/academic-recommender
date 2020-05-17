@@ -1,8 +1,7 @@
 package com.shitajimado.academicwritingrecommender.services;
 
-import com.google.common.collect.Sets;
-import com.shitajimado.academicwritingrecommender.core.dtos.CorpusDto;
-import com.shitajimado.academicwritingrecommender.core.dtos.DocumentDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.CorpusDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.DocumentDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.CorpusNotFoundException;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import com.shitajimado.academicwritingrecommender.entities.Corpus;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service

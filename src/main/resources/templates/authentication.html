@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Academic Writing Analysis Application</title>
+    <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
+    <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
+    <script src="../static/scripts/authentication.js" th:src="@{scripts/authentication.js}"></script>
+</head>
+<body>
+    <div class="padded">
+        <h1>Authentication</h1>
+        <form id="user-form" action="/api/login" method="POST">
+            <p><label>Login: <input type="text" required></label></p>
+            <p><label>Password: <input type="password" required></label></p>
+            <p id="confirm-wrapper" hidden><label>Confirm password: <input id="password-confirm" type="password"></label></p>
+            <p><label><input type="submit"></label></p>
+        </form>
+        <p>
+            <span id="login-button" onclick="view.switchToLogin()">Log in</span>
+            <span id="register-button" class="underline" onclick="view.switchToRegister()">Register</span>
+        </p>
+    </div>
+    <script>
+        const view = new AuthenticationView();
+    </script>
+</body>
+</html>

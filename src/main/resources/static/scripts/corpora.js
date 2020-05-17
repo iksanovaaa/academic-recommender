@@ -36,23 +36,7 @@ class CorporaView extends View {
         this.startLoading('corpora')
 
         getRequest('api/read_corpus').then(
-            reply => {
-                this.updateLists('corpora', 'corpusList', reply).forEach(
-                    (cur, idx) => {
-                        // Set up the corpus list item
-                        /* cur.extras.clickable[0].onclick = () => {
-                            this.currentCorpus = idx;
-                            this.fetchDocuments(this.currentCorpus);
-                        }; */
-                        cur.extras.clickable[0].href = '/documents' + concatAndEncode(this.corpora[idx]);
-
-                        // Set up the corpus deleter
-                        cur.extras.deleter[0].onclick = () => {
-                            this.deleteCorpus(idx);
-                        };
-                    }
-                );
-            },
+            reply => this.updateCorpusList(reply),
             err => alert('Failed to fetch corpora: ' + err.message) 
         ).finally(
             () => this.finishLoading('corpora')
@@ -66,10 +50,24 @@ class CorporaView extends View {
         ).then(
             reply => {
                 this.corpora.splice(corpusIdx, 1);
-                this.corpusList.remove(corpusIdx);
-
+                // this.corpusList.remove(corpusIdx);
+                this.updateCorpusList(this.corpora);
                 // Performed locally
                 //this.fetchCorpora();
+            }
+        );
+    }
+
+    updateCorpusList(value) {
+        this.updateLists('corpora', 'corpusList', value).forEach(
+            (cur, idx) => {
+                // Set up the corpus list item
+                cur.extras.clickable[0].href = '/documents' + concatAndEncode(this.corpora[idx]);
+
+                // Set up the corpus deleter
+                cur.extras.deleter[0].onclick = () => {
+                    this.deleteCorpus(idx);
+                };
             }
         );
     }

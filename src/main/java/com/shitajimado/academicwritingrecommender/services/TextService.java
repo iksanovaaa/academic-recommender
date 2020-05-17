@@ -1,6 +1,6 @@
 package com.shitajimado.academicwritingrecommender.services;
 
-import com.shitajimado.academicwritingrecommender.core.dtos.TextDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.TextDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import com.shitajimado.academicwritingrecommender.core.exceptions.TextNotPresentException;
 import com.shitajimado.academicwritingrecommender.entities.Text;
@@ -19,7 +19,8 @@ public class TextService {
     @Transactional()
     Text createText(TextDto textDto) throws DocumentNotCreatedException {
         var text = gateService.processWithGate(textDto.getContent());
-        return textRepository.save(text);
+        text = textRepository.save(text);
+        return text;
     }
 
     @Transactional

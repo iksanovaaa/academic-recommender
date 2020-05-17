@@ -152,6 +152,12 @@ div.padded {
   padding-left: 10px;
 }
 
+.underline {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 #content {
   height: 100%;
 }

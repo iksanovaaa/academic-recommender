@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Statistics {
@@ -18,7 +19,7 @@ public class Statistics {
     public static Statistics fromTextStream(Stream<Text> texts) {
         Map<String, Long> counts = new HashMap<>();
 
-        texts.map(Text::getAnnotations).forEach(
+        texts.map(Text::getAnnotationList).forEach(
                 annotationList -> {
                     for (var annotation : annotationList) {
                         counts.putIfAbsent(annotation.getName(), 1L);

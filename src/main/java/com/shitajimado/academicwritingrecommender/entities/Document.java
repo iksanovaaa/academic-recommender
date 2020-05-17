@@ -1,11 +1,8 @@
 package com.shitajimado.academicwritingrecommender.entities;
 
-import com.shitajimado.academicwritingrecommender.core.dtos.DocumentDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.DocumentDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
-import java.net.URL;
 
 public class Document {
     @Id
@@ -18,6 +15,11 @@ public class Document {
 
     }
 
+    public Document(String corpusId, String name) {
+        this.corpusId = corpusId;
+        this.name = name;
+    }
+
     public Document(String name, String content, Text annotatedText) throws DocumentNotCreatedException {
         this.corpusId = "";
         this.name = name;
@@ -25,8 +27,7 @@ public class Document {
     }
 
     public Document(DocumentDto documentDto) {
-        this.corpusId = documentDto.getCorpusId();
-        this.name = documentDto.getName();
+        this(documentDto.getCorpusId(), documentDto.getName());
     }
 
     public String getName() {

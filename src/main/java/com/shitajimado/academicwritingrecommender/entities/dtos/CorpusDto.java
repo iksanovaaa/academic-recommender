@@ -1,4 +1,4 @@
-package com.shitajimado.academicwritingrecommender.core.dtos;
+package com.shitajimado.academicwritingrecommender.entities.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -119,21 +119,7 @@ class DocumentsView extends View {
             { corpusId: this._corpus.id}
             // this.corpora[corpusIdx] 
         ).then(
-            reply => {
-                this.updateLists('documents', 'documentList', reply).forEach(
-                    (cur, idx) => {
-                        // Set up the document list item
-                        cur.extras.clickable[0].onclick = event => {
-                            this.currentDocument = idx;
-                            this.fetchText(this.currentDocument);
-                        };
-
-                        cur.extras.deleter[0].onclick = event => {
-                            this.deleteDocument(idx);
-                        };
-                    }
-                );
-            },
+            reply => this.updateDocumentList(reply),
             err => alert('Failed to fetch documents: ' + err.message) 
         ).finally(
             () => this.finishLoading('documents')
@@ -188,10 +174,26 @@ class DocumentsView extends View {
         ).then(
             reply => {
                 this.documents.splice(documentIdx, 1);
-                this.documentList.remove(documentIdx);
-
+                // this.documentList.remove(documentIdx);
+                this.updateDocumentList(this.documents);
                 // Performed locally
                 // this.fetchDocuments();
+            }
+        );
+    }
+
+    updateDocumentList(value) {
+        this.updateLists('documents', 'documentList', value).forEach(
+            (cur, idx) => {
+                // Set up the document list item
+                cur.extras.clickable[0].onclick = event => {
+                    this.currentDocument = idx;
+                    this.fetchText(this.currentDocument);
+                };
+
+                cur.extras.deleter[0].onclick = event => {
+                    this.deleteDocument(idx);
+                };
             }
         );
     }

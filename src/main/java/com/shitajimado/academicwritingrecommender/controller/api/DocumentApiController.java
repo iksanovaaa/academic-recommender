@@ -1,7 +1,7 @@
 package com.shitajimado.academicwritingrecommender.controller.api;
 
-import com.shitajimado.academicwritingrecommender.core.dtos.CorpusDto;
-import com.shitajimado.academicwritingrecommender.core.dtos.DocumentDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.CorpusDto;
+import com.shitajimado.academicwritingrecommender.entities.dtos.DocumentDto;
 import com.shitajimado.academicwritingrecommender.core.exceptions.CorpusNotFoundException;
 import com.shitajimado.academicwritingrecommender.core.exceptions.DocumentNotCreatedException;
 import com.shitajimado.academicwritingrecommender.entities.*;
