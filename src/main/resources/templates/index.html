@@ -3,13 +3,75 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Academic Writing Analysis Application</title>
-    <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
+    <!--link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet"-->
+    <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
     <script src="../static/scripts/index.js" th:src="@{scripts/index.js}"></script>
 </head>
 <body>
-    <div class="padded">
+    <div class="article-container">
+        <header th:replace="header :: header">Навигационная панель</header>
+        <article>
+            <div class="brief">
+                <p>Кому будет полезен <b>Linguistic Analysis</b>?</p>
+                <div class="brief-container center-labels"
+                     th:with="imgs = ${ new String[]{'book_lover', 'presentation2', 'graduation2', 'focus_working2'}}">
+                    <div class="brief-item" th:each="img : ${imgs}">
+                        <img th:src="@{${'images/' + img + '.svg'}}">
+                    </div>
+                    <p>Лингвистам</p>
+                    <p>Преподавателям</p>
+                    <p>Студентам</p>
+                    <p>Ученым и специалистам в других сферах</p>
+                </div>
+            </div>
+            <div class="authorize-prompt">
+                <span id="prompt">
+                    <p>Станьте нашим пользователем прямо сейчас!
+                        Войдите на портал <b>Linguistic Analysis</b>,
+                        используя свои учетные данные, или зарегистрируйтесь!
+                    </p>
+                </span>
+                <span th:replace="header :: .authorize">Здесь будут кнопки авторизации</span>
+            </div>
+            <div class="information">
+                <p class="center">О портале <b>Linguistic Analysis</b></p>
+                <div class="left">
+                    <p>
+                        Портал для анализа и оценки стиля научных публикаций
+                        позволяет формировать корпусы статей, обрабатывать их,
+                        анализировать какую-либо англоязычную статью на предмет
+                        соответствия научному академическому стилю по средствам
+                        сравнения показателей выбранных метрик с показателями
+                        корпуса и на основе результатов оценки выдавать
+                        рекомендации по исправлению текста.
+                        Проверка публикаций в <b>Linguistic Analysis</b> основана
+                        на методах корпусной лингвистики, в частности метода эталонных корпусов.
+                    </p>
+                    <p>
+                        Портал принесет пользу студентам, преподавателям, лингвистам,
+                        научным сотрудникам, ученым, которые имеют потребность в проверке
+                        соответствия научному стилю своих работ, написанных на английском языке,
+                        а также источников информации на английском языке, с которыми они планируют работать.
+                    </p>
+                    <div class="applications-container center-labels"
+                         th:with="imgs = ${ new String[]{'analyze_report_2', 'analyze_data2', 'fast_working2'}}">
+                        <div class="brief-item" th:each="img : ${imgs}">
+                            <img th:src="@{${'images/' + img + '.svg'}}">
+                        </div>
+                        <p>Поможет в проверке статей на соответствие научному стилю</p>
+                        <p>Позволит произвести анализ корпусов</p>
+                        <p>Ускорит проверку работ студентов, различных текстов</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+    <footer>
+
+    </footer>
+    <div class="padded" hidden>
         <h1>Index page</h1>
         <p><a href="authentication">Register</a></p>
         <p><a href="authentication">Login</a></p>

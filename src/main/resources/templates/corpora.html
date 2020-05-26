@@ -3,14 +3,60 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Academic Writing Analysis Application</title>
-    <link href="../static/css/index.css" th:href="@{css/index.css}" rel="stylesheet">
-    <link href="../static/css/annotations.css" th:href="@{css/annotations.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
     <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
     <script src="../static/scripts/corpora.js" th:src="@{scripts/corpora.js}"></script>
 </head>
 <body>
-    <div id='content'>
+    <div class="article-container">
+        <header th:replace="header :: header">Навигационная панель</header>
+        <article>
+            <div id="corpus-container">
+                <details open>
+                    <summary>Выбрать корпус</summary>
+                    <div class="left">
+                        <p>Для начала необходимо выбрать корпус, с которым далее предстоит работать.
+                            В случае, если Вы не обнаружили подходящий по тематике корпус,
+                            Вы можете создать новый и загрузить документы туда.
+                        </p>
+                        <p>Здесь будет поиск</p>
+                    </div>
+                    <table>
+                        <colgroup>
+                            <col span="1" style="width: 40%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 10%;">
+                        </colgroup>
+                        <tbody>
+                            <th>Название</th>
+                            <th>Автор</th>
+                            <th>Дата создания</th>
+                            <th>Действия</th>
+                            <tr th:each="corpus : ${corpora}">
+                                <td class="content"><a th:href="@{documents(id=${corpus.id})}" th:text="${corpus.name}">Тестовое название</a></td>
+                                <td class="content">Здесь будет автор</td>
+                                <td class="center content">А сюда впишем дату</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </details>
+                <details>
+                    <summary>Выбрать документ</summary>
+
+                </details>
+                <details>
+                    <summary>Перейти к разметке текста</summary>
+                </details>
+            </div>
+        </article>
+    </div>
+
+    <div id='content' hidden>
         <div class="center">
             <h2>Linguistic Research System</h2>
         </div>

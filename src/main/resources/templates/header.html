@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Academic Writing Analysis Application</title>
+    <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
+</head>
+<body>
+    <header th:fragment="header">
+        <nav>
+            <a href="index"><img id="logo" src="../static/images/open-book-x.svg" th:src="@{images/open-book-x.svg}"></a>
+            <span class="gradient"><a href="index">Главная</a></span>
+            <span><a href="corpora">Корпуса</a></span>
+            <span><a href="help">Справка</a></span>
+            <span th:replace="this :: .authorize"></span>
+        </nav>
+    </header>
+    <span class="authorize">
+        <span class="login-button"><a>Войти</a></span>
+        <span class="register-button"><a>Зарегистрироваться</a></span>
+    </span>
+</body>
+</html>

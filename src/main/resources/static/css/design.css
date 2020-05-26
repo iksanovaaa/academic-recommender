@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+  background-image: url('../images/body-bg-top.svg');
+  background-repeat: no-repeat;
+  background-position-y: -3px;
+  background-color: #E5E5E5;
+
+  font-family: 'Open Sans', sans-serif;;
+  
+  height: 1024px;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Header part */
+header {
+  height: 100px;
+  border-bottom: 2px rgba(255.0, 255.0, 255.0, 0.2) solid;
+}
+
+nav {
+  color: white;
+
+  height: 100px;
+  padding-left: 100px;
+  padding-right: 150px;
+  /*padding-top: 10px; */
+
+  display: flex;
+  align-items: center;
+}
+
+span.nav-item {
+  font-size: 1.1em;
+  height: 100%;
+  /* padding: 10px; */
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer; 
+
+  display: flex;
+  align-items: center;
+}
+
+span.nav-item:hover a {
+  border-bottom: 3px white solid;
+}
+
+span.nav-item a {
+  color: inherit;
+  text-decoration: inherit
+}
+
+.gradient {
+  background: linear-gradient(90.3deg, rgb(130, 113, 186) 2.3%, rgba(126, 153, 230, 0.34) 99.85%);;
+}
+
+#logo {
+/* mask-image: url('../images/open-book-x.svg');
+-webkit-mask-image: url('../images/open-book-x.svg');
+  background-image: url('../images/open-book-x.svg'); */
+  cursor: pointer;
+  
+  padding: 30px;
+}
+
+#nav-authorization-box {
+  font-size: 0.8em;
+
+  margin-left: auto;
+  /* justify-self: flex-end; */
+}
+
+/* Body part */
+div.article-container {
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+}
+
+article {
+  max-width: 1000px;
+  height: 1100px;
+  padding-left: 100px;
+  padding-right: 100px;
+
+  justify-self: center;
+  /* padding-top: 30px; */
+}
+
+article > div {
+  background-color: white;
+
+  border-radius: 10px;
+  
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  margin-top: 30px;
+}
+
+div.brief {
+  text-align: center;
+}
+
+div.brief-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  justify-content: center;
+}
+
+div.brief-item {
+  flex: 1;
+  text-align: center;
+}
+
+div.center-labels p {
+  font-size: 0.8em;
+  align-self: center;
+  text-align: center;
+}
+
+.img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.brief-item p {
+  font-size: 0.8em;
+}
+
+div.authorize-prompt {
+  background: linear-gradient(91.38deg, rgba(130, 113, 186, 0.78) 2.3%, rgba(126, 153, 230, 0.79) 99.85%);;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+}
+
+span#prompt {
+  flex: 5;
+  font-size: 0.8em;
+}
+
+/* Authorization box */
+span.authorize {
+  font-size: 0.8em;;
+  height: 75px;
+
+  margin-left: auto;
+  display: flex;
+  /* flex: 2; */
+  align-items: center;
+}
+
+span.authorize > span {
+  cursor: pointer;
+  
+  border: 1px white solid;
+  border-radius: 5px;
+}
+
+span.authorize > span:hover {
+  box-shadow: 0 0 5px 1px rgba(255,255,255,1);
+}
+
+span.login-button {
+  background-color: #8C98BC;
+  justify-self: flex-start;
+}
+
+span.login-button a {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+span.register-button {
+  margin-left: 5px;
+  justify-self: flex-end;
+}
+
+span.register-button a {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* Site information box */
+div.information {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+div.left {
+  text-align: left;
+}
+
+div.applications-container {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
+/* Corpus view body */
+#corpus-container {
+  /* width: 900px; */
+}
+
+table {
+  background-color: #E5E5E5;
+  border: 1px #BBB solid;
+  border-collapse: collapse;
+}
+
+tbody {
+  border: inherit;
+}
+
+th {
+  border: inherit;
+}
+
+tr {
+  border: inherit;
+}
+
+td {
+  border: inherit;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+td.content {
+  height: 50px;
+}
+
+tr:nth-of-type(even) {
+  background-color: white;
+}
+
+tr:nth-of-type(odd) {
+
+}
+
+tr:nth-last-of-type(1) {
+  background-color: #E5E5E5;;
+}
+
+summary {
+  cursor: pointer;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Academic Writing Analysis Application</title>
+    <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="article-container">
+        <header>
+            <nav>
+                <img id="logo" src="../static/images/open-book-x.svg">
+                <span class="nav-item gradient"><a>Главная</a></span>
+                <span class="nav-item"><a>О проекте</a></span>
+                <span class="nav-item"><a>Корпуса</a></span>
+                <span class="nav-item"><a>Справка</a></span>
+                <span id="nav-authorization-box1" class="authorize"> 
+                    <span class="login-button"><a>Войти</a></span>
+                    <span class="register-button"><a>Зарегистрироваться</a></span>
+                </span>
+            </nav>
+        </header>
+        <article>
+            <div class="brief">
+                <p>Кому будет полезен <b>Linguistic Analysis</b>?</p>
+                <div class="brief-container center-labels">
+                    <div class="brief-item">
+                        <img src="../static/images/book_lover.svg">
+                    </div>
+                    <div class="brief-item">
+                        <img src="../static/images/presentation2.svg">
+                    </div>
+                    <div class="brief-item">
+                        <img src="../static/images/graduation2.svg">
+                    </div>
+                    <div class="brief-item">
+                        <img src="../static/images/focus_working2.svg">
+                    </div>
+                    <p>Лингвистам</p>
+                    <p>Преподавателям</p>
+                    <p>Студентам</p>
+                    <p>Ученым и специалистам в других сферах</p>
+                </div>
+            </div>
+            <div class="authorize-prompt">
+                <span id="prompt">
+                    <p>Станьте нашим пользователем прямо сейчас!
+                        Войдите на портал <b>Linguistic Analysis</b>, 
+                        используя свои учетные данные, или зарегистрируйтесь!
+                    </p>
+                </span>
+                <span class="authorize">
+                    <span class="login-button"><a>Войти</a></span>
+                    <span class="register-button"><a>Зарегистрироваться</a></span>
+                </span>
+            </div>
+            <div class="information">
+                <p class="center">О портале <b>Linguistic Analysis</b></p>
+                <div class="left">
+                    <p>
+                        Портал для анализа и оценки стиля научных публикаций 
+                        позволяет формировать корпусы статей, обрабатывать их, 
+                        анализировать какую-либо англоязычную статью на предмет 
+                        соответствия научному академическому стилю по средствам 
+                        сравнения показателей выбранных метрик с показателями 
+                        корпуса и на основе результатов оценки выдавать 
+                        рекомендации по исправлению текста. 
+                        Проверка публикаций в <b>Linguistic Analysis</b> основана 
+                        на методах корпусной лингвистики, в частности метода эталонных корпусов.
+                    </p>
+                    <p>
+                        Портал принесет пользу студентам, преподавателям, лингвистам, 
+                        научным сотрудникам, ученым, которые имеют потребность в проверке 
+                        соответствия научному стилю своих работ, написанных на английском языке, 
+                        а также источников информации на английском языке, с которыми они планируют работать.
+                    </p>
+                    <div class="applications-container center-labels">
+                        <div class="brief-item">
+                            <div class="img-wrapper">
+                                <img src="../static/images/analyze_report_2.svg">
+                            </div>
+                            
+                        </div>
+                        <div class="brief-item">
+                            <div class="img-wrapper">
+                                <img src="../static/images/analyze_data2.svg">
+                            </div>
+                        </div>
+                        <div class="brief-item">
+                            <div class="img-wrapper">
+                                <img src="../static/images/fast_working2.svg">
+                            </div>
+                        </div>
+                        <p>Поможет в проверке статей на соответствие научному стилю</p>
+                        <p>Позволит произвести анализ корпусов</p>
+                        <p>Ускорит проверку работ студентов, различных текстов</p>
+                    </div>
+                </div>
+            </div>
+            <div id="corpus-container">
+                <details>
+                    <summary>Выбрать корпус</summary>
+                    <span class="center"><p>Корпуса</p></span>
+                    <table>
+                        <colgroup>
+                            <col span="1" style="width: 40%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 10%;">
+                        </colgroup>
+
+                        <th>Название</th>
+                        <th>Автор</th>
+                        <th>Дата создания</th>
+                        <th>Действия</th>
+                        <tbody>
+                            <tr>
+                                <td>Магазин</td>
+                                <td>Магазин</td>
+                                <td>Магазин</td>
+                                <td>Магазин</td>
+                            </tr>
+                            <tr>
+                                <td>Нужны Барни</td>
+                                <td>Нужны Барни</td>
+                                <td>Нужны Барни</td>
+                                <td>Нужны Барни</td>
+                            </tr>
+                            <tr>
+                                <td>Нужны сиги</td>
+                                <td>Нужны сиги</td>
+                                <td>Нужны сиги</td>
+                                <td>Нужны сиги</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </details>
+
+                <details>
+                    <summary>Выбрать документ</summary>
+                </details>
+
+                <details>
+                    <summary>Перейти к разметке текста</summary>
+                </details>
+            </div>
+        </article>
+    </div>
+    <footer>
+
+    </footer>
+    <div class="padded" hidden>
+        <h1>Index page</h1>
+        <p><a href="authentication">Register</a></p>
+        <p><a href="authentication">Login</a></p>
+        <p><a href="corpora">Common corpora</a></p>
+    </div>
+    <script>
+    </script>
+</body>
+</html> 
