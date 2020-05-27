@@ -52,6 +52,11 @@ span.nav-item a {
   text-decoration: inherit
 }
 
+a.stylized {
+  color: inherit;
+  text-decoration: inherit
+}
+
 .gradient {
   background: linear-gradient(90.3deg, rgb(130, 113, 186) 2.3%, rgba(126, 153, 230, 0.34) 99.85%);;
 }
@@ -150,6 +155,7 @@ span#prompt {
 span.authorize {
   font-size: 0.8em;;
   height: 75px;
+  color: white;
 
   margin-left: auto;
   display: flex;

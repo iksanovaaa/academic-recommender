@@ -1,0 +1,52 @@
+/* Authorization page */
+div#auth-box {
+    min-width: 400px;
+}
+  
+div#auth-form-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-areas:
+            'i'
+            'b'
+            'd'
+            'f'
+            'h';
+  row-gap: 15px;
+  font-size: 0.9em;
+  padding-bottom: 10px;
+}
+
+#header { 
+    grid-area: i;
+    justify-self: center;
+}
+
+#login-label { grid-area: a; }
+#login { grid-area: b; }
+#password-label { grid-area: c; }
+#password { grid-area: d; }
+#matching-label { grid-area: e; }
+#matching { grid-area: f; }
+
+#submit { 
+    grid-area: h;
+    justify-self: center;
+    min-width: 200px;
+
+    border: 1px #BBB solid;
+    border-radius: 10px;
+    cursor: pointer;
+	padding: 10px;
+    color: white;
+}
+
+#auth-form-container input {
+    border: 1px #BBB solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+div#registration-box {
+    min-width: 400px;
+}

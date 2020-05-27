@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8"/>
     <title>Academic Writing Analysis Application</title>
     <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
+    <link href="../static/css/authorization.css" th:href="@{css/design.css}" rel="stylesheet">
 </head>
 <body>
     <header th:fragment="header">
         <nav>
             <a href="index"><img id="logo" src="../static/images/open-book-x.svg" th:src="@{images/open-book-x.svg}"></a>
-            <span class="gradient"><a href="index">Главная</a></span>
-            <span><a href="corpora">Корпуса</a></span>
-            <span><a href="help">Справка</a></span>
+            <span class="gradient nav-item"><a href="index">Главная</a></span>
+            <span class="nav-item"><a href="corpora">Корпуса</a></span>
+            <span class="nav-item"><a href="help">Справка</a></span>
             <span th:replace="this :: .authorize"></span>
         </nav>
     </header>
     <span class="authorize">
-        <span class="login-button"><a>Войти</a></span>
-        <span class="register-button"><a>Зарегистрироваться</a></span>
+        <span class="login-button"><a class="stylized" href="login">Войти</a></span>
+        <span class="register-button"><a class="stylized" href="register">Зарегистрироваться</a></span>
     </span>
+    <div th:fragment="auth-box(boxId, isRegistration, action, headerText)" id="${boxId}" class="padded" >
+        <form id="user-form" th:action="${action}" method="POST" th:object="${userDto}">
+            <div id="auth-form-container">
+                <h1 id="header" th:text="${headerText}">Здесь будет текст</h1>
+                <!--label id="login-label" class="cell" for="login">Введите логин:</label-->
+                <input id="login" name="login" type="text" placeholder="Логин" autofocus required th:field="*{login}">
+                <!--label id="password-label" for="password">Введите пароль:</label-->
+                <input id="password" name="password" type="password" placeholder="Пароль" required th:field="*{password}">
+                    <!--label id="matching-label" for="matching">Подтвердите пароль:</label-->
+                <input id="matching" name="matchingPassword" type="password" placeholder="Подтверждение пароля"
+                       th:if="${isRegistration}" th:field="*{matchingPassword}" required>
+                <button id="submit" class="gradient" type="submit">Войти</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

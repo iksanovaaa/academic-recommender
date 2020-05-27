@@ -16,4 +16,16 @@ public class UserDto {
     public String getMatchingPassword() {
         return matchingPassword;
     }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 }

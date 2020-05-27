@@ -11,7 +11,7 @@
 <body>
     <div class="article-container">
         <header th:replace="header :: header">Навигационная панель</header>
-        <article th:insert="header :: auth-box('auth-box', false, '/login', 'Авторизация')">
+        <article th:insert="header :: auth-box('registration-box', true, '/register', 'Регистрация')">
         </article>
     </div>
     <script>

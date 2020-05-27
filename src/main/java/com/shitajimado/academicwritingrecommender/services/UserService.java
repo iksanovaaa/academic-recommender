@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public User login(UserDto userDto) throws UserNotExistsException {
-        return userRepository.findByLogin(userDto.getLogin()).flatMap(
+        return Optional.of(userRepository.findByLogin(userDto.getLogin())).flatMap(
                 user -> {
                     if (user.checkPassword(userDto.getPassword())) {
                         return Optional.of(user);
