@@ -42,14 +42,14 @@ public class IndexController {
         return "registration";
     }
 
-    @PostMapping("/login")
+    /* @PostMapping("/login")
     public String login(@ModelAttribute UserDto userDto) throws UserNotExistsException {
         userService.login(userDto);
         return "index";
-    }
+    } */
 
     @PostMapping("/register")
-    public String register(@ModelAttribute UserDto userDto) throws UserAlreadyExistsException {
+    public String register(@ModelAttribute UserDto userDto) throws UserAlreadyExistsException, UserNotExistsException {
         userService.register(userDto);
         return "index";
     }

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="ru">
 <head>
     <meta charset="UTF-8"/>
     <title>Academic Writing Analysis Application</title>
@@ -26,7 +28,7 @@
                     <p>Ученым и специалистам в других сферах</p>
                 </div>
             </div>
-            <div class="authorize-prompt">
+            <div class="authorize-prompt" sec:authorize="${not isAuthenticated()}">
                 <span id="prompt">
                     <p>Станьте нашим пользователем прямо сейчас!
                         Войдите на портал <b>Linguistic Analysis</b>,
@@ -67,6 +69,10 @@
                 </div>
             </div>
         </article>
+        Hello [[${#httpServletRequest.remoteUser}]]!
+        <div sec:authorize="hasRole('USER')">Text visible to user.</div>
+        <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+        <div sec:authorize="${not isAuthenticated()}">Auth</div>
     </div>
     <footer>
 

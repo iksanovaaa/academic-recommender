@@ -1,12 +1,22 @@
 package com.shitajimado.academicwritingrecommender.entities.dtos;
 
 public class UserDto {
-    private String login;
+    private String username;
     private String password;
     private String matchingPassword;
 
-    public String getLogin() {
-        return login;
+    public UserDto() {
+
+    }
+
+    public UserDto(String username, String password, String matchingPassword) {
+        this.username = username;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -17,8 +27,8 @@ public class UserDto {
         return matchingPassword;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {

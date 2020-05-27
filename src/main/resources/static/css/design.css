@@ -163,15 +163,20 @@ span.authorize {
   align-items: center;
 }
 
-span.authorize > span {
+.auth-button {
   cursor: pointer;
   
   border: 1px white solid;
   border-radius: 5px;
 }
 
-span.authorize > span:hover {
+.auth-button:hover {
   box-shadow: 0 0 5px 1px rgba(255,255,255,1);
+}
+
+.name-panel {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 span.login-button {

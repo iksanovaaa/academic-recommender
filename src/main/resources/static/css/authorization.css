@@ -23,7 +23,7 @@ div#auth-form-container {
 }
 
 #login-label { grid-area: a; }
-#login { grid-area: b; }
+#username { grid-area: b; }
 #password-label { grid-area: c; }
 #password { grid-area: d; }
 #matching-label { grid-area: e; }

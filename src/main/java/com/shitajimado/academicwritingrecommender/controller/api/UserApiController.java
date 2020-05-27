@@ -14,13 +14,13 @@ public class UserApiController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/register")
-    public User register(@ModelAttribute UserDto userDto) throws UserAlreadyExistsException {
+    /*@PostMapping(value = "/register")
+    public User register(@ModelAttribute UserDto userDto) throws UserAlreadyExistsException, UserNotExistsException {
         return userService.register(userDto);
     }
 
     @PostMapping(value = "/login")
     public User login(@ModelAttribute UserDto userDto) throws UserNotExistsException {
         return userService.login(userDto);
-    }
+    }*/
 }
