@@ -4,59 +4,108 @@
     <meta charset="UTF-8"/>
     <title>Academic Writing Analysis Application</title>
     <link href="../static/css/design.css" th:href="@{css/design.css}" rel="stylesheet">
+    <link href="../static/css/annotations.css" th:href="@{css/annotations.css}" rel="stylesheet">
     <script src="../static/scripts/main.js" th:src="@{scripts/main.js}"></script>
     <script src="../static/scripts/corpora.js" th:src="@{scripts/corpora.js}"></script>
+    <script src="../static/scripts/documents.js" th:src="@{scripts/documents.js}"></script>
 </head>
 <body>
+    <!--div class="article-container"-->
     <div class="article-container">
         <header th:replace="header :: header">Навигационная панель</header>
         <article>
             <div id="corpus-container">
-                <details open>
+                <details id="corpus-details" open>
                     <summary>Выбрать корпус</summary>
-                    <div class="left">
-                        <p>Для начала необходимо выбрать корпус, с которым далее предстоит работать.
+                    <div id="corpus-brief" class="left">
+                        <p id="corpus-desc">Для начала необходимо выбрать корпус, с которым далее предстоит работать.
                             В случае, если Вы не обнаружили подходящий по тематике корпус,
                             Вы можете создать новый и загрузить документы туда.
                         </p>
-                        <p>Здесь будет поиск</p>
+                        <div id="corpus-create-box">
+                            <input id="corpus" class="rounded" name="corpus" placeholder="Название корпуса">
+                            <button id="submit" onclick="documentsView.createCorpus()">Создать корпус</button>
+                        </div>
                     </div>
-                    <table>
+                    <p hidden>Здесь будет поиск</p>
+                    <table class="">
                         <colgroup>
-                            <col span="1" style="width: 40%;">
+                            <col span="1" style="width: 50%;">
                             <col span="1" style="width: 20%;">
                             <col span="1" style="width: 20%;">
-                            <col span="1" style="width: 10%;">
+                            <!--col span="1" style="width: 10%;"-->
                         </colgroup>
                         <tbody>
                             <th>Название</th>
                             <th>Автор</th>
                             <th>Дата создания</th>
-                            <th>Действия</th>
+                            <!--th>Действия</th-->
                             <tr th:each="corpus : ${corpora}">
-                                <td class="content"><a th:href="@{documents(id=${corpus.id})}" th:text="${corpus.name}">Тестовое название</a></td>
-                                <td class="content">Здесь будет автор</td>
-                                <td class="center content">А сюда впишем дату</td>
-                                <td></td>
+                                <td class="content pointer" th:onclick="documentsView.selectCorpus(this.dataset['id'])" th:text="${corpus.name}" th:attr="data-id=${corpus.id}">Тестовое название</td>
+                                <td class="content">admin</td>
+                                <td class="center content">20.04.2020</td>
+                                <!--td></td-->
                             </tr>
                             <tr>
-                                <td colspan="4">1</td>
+                                <!--td class="center" colspan="4">--</td-->
+                                <td class="center" colspan="3">--</td>
                             </tr>
                         </tbody>
                     </table>
                 </details>
-                <details>
+                <details id="document-details" open hidden>
                     <summary>Выбрать документ</summary>
+                    <div id="document-brief" class="left">
+                        <p>Далее нужно выбрать документ, с которым предстоит работать.
+                            Документы можно загружать как по отдельности, так и пакетами.</p>
+                        <p hidden>А здесь будет поиск по документам</p>
+                        <p><label><input id="document-drop-zone" name="content" accept="text/plain" type="file" multiple></label></p>
+                        <p><div class="autosized dotted-border pointer" onclick="documentsView.createDocuments()">Загрузить документы</div></p>
+                    </div>
+                    <div id="document-table">
+                        <div id="document-table-header-row" class="document-row">
+                            <span class="document-header document-col">Название статьи</span>
+                            <span class="document-header document-col">Загружена</span>
+                            <!--span class="document-header document-col">Действия</span-->
+                        </div>
+                        <div id="document-list"></div>
+                        <div id="document-table-footer" class="document-row">
+                            --
+                        </div>
+                    </div>
                 </details>
-                <details>
+                <details id="annotations-details" open hidden>
                     <summary>Перейти к разметке текста</summary>
                 </details>
             </div>
+            <div id="word" hidden>
+                <div id="word-header">
+                    <img src="../static/images/hide-tags-icon.svg" th:src="@{images/hide-tags-icon.svg}">
+                    <img src="../static/images/toggle-tag-markup-icon.svg" th:src="@{images/toggle-tag-markup-icon.svg}" hidden>
+                    <img src="../static/images/zoom-in-icon.svg" th:src="@{images/zoom-in-icon.svg}">
+                    <img src="../static/images/zoom-out-icon.svg" th:src="@{images/zoom-out-icon.svg}">
+                    <img src="../static/images/save-all-icon.svg" th:src="@{images/save-all-icon.svg}" hidden>
+                    <img src="../static/images/expand-icon.svg" th:src="@{images/expand-icon.svg}" hidden>
+                </div>
+                <div id="word-body">
+
+                </div>
+            </div>
         </article>
+        <div id="sidebar">
+            <div id="sidebar-header">
+                <h2>Типы разметки</h2>
+            </div>
+            <div id="annotation-container">
+                <div id="annotation-list">
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- New Corpus modal window -->
-    <div id="corpus-modal" class="modal" hidden>
+    <!--div id="corpus-modal" class="modal" hidden>
         <div class="modal-content">
             <span class="close" id="corpus-modal-close">&times;</span>
             <h2>Corpus:</h2>
@@ -65,16 +114,26 @@
                 <p><div class='autosized dotted-border pointer submit' onclick="corporaView.createCorpus()">Save changes</div></p>
             </form>
         </div>
-    </div>
+    </div-->
 
     <div hidden>
-        <!-- Corpus item template -->
-        <div id="corpus-template">
-            <a class="clickable content item pointer"></a><span class="item pointer deleter">&times;</span>
+        <!-- Document item template -->
+        <div id="document-template" class="document document-row">
+            <span class="document-col clickable content item pointer">Документ #1</span>
+            <span class="document-col center content">20.04.2020</span>
+            <!--span class="document-col content">   </span-->
+        </div>
+        <!-- Annotation item template -->
+        <div id="annotation-template">
+            <label class="item pointer">
+                <input class="clickable controller pointer" type="checkbox" checked>
+                <span class="content"></span>
+            </label>
         </div>
     </div>
     <script>
-        const corporaView = new CorporaView();
+        // const corporaView = new CorporaView();
+        const documentsView = new DocumentsView();
     </script>
 </body>
 </html>

@@ -2,32 +2,40 @@ class DocumentsView extends View {
     constructor(corpus) {
         super();
 
-        this.colorizedTextBlock = document.getElementById('colorized-html');
+        // this.colorizedTextBlock = document.getElementById('colorized-html');
 
         this.documentList = new ItemList('document');
         this.annotationList = new ItemList('annotation');
-        this.markerList = new ItemList('marker');
+        /* this.markerList = new ItemList('marker'); */
 
         this.currentDocument = -1;
 
-        this._corpus = corpus;
+        // this._corpus = corpus;
         this.documents = [];
         this.annotations = [];
         this.markers = [];
 
-        this.fetchDocuments();
+        // this.fetchDocuments();
 
-        this._documentModal = new Modal('document-modal');
+        /* this._documentModal = new Modal('document-modal');
 
-        this._documentModal.onSubmit = (form) => this.createDocument(form);
+        this._documentModal.onSubmit = (form) => this.createDocument(form); */
 
-        document.querySelector(
+        /* document.querySelector(
             '#new-document'
-        ).onclick = () => this._documentModal.show();
+        ).onclick = () => this._documentModal.show(); */
     }
 
     set colorizedHtml(value = '') {
         this.colorizedTextBlock.innerHTML = value;
+    }
+
+    selectCorpus(value) {
+        this._corpus = { id: value };
+        document.querySelector('#corpus-details').open = false;
+        document.querySelector('#document-details').hidden = false;
+
+        this.fetchDocuments();
     }
 
     setAnnotation(index, value) {
@@ -64,7 +72,7 @@ class DocumentsView extends View {
         }
     }
 
-    createDocument(form) {
+    /* createDocument(form) {
         const dropZone = document.getElementById('document-drop-zone');
 
         const file = new Optional(dropZone.files[0]);
@@ -75,7 +83,7 @@ class DocumentsView extends View {
 
                 reader.onload = (e) => {
                     const documentInfo = { 
-                        corpusId: this._corpus.id /* this.corpora[this.currentCorpus].id */,
+                        corpusId: this._corpus.id,
                         name: document.getElementById('document-name').value,
                         content: e.target.result
                     };
@@ -88,6 +96,57 @@ class DocumentsView extends View {
                 };
 
                 reader.readAsText(file);
+            }
+        );
+    } */
+
+    createCorpus(form) {
+        postRequest(
+            'api/create_corpus', 
+            //{ name: form.name }
+            { name: document.getElementById('corpus').value }
+        ).then(
+            () => document.location.reload(true), // this.fetchCorpora(),
+            err => alert('Unable to create a corpus: ' + err.message)
+        );
+    }
+
+    fetchCorpora() {
+        this.startLoading('corpora')
+
+        getRequest('api/read_corpus').then(
+            reply => this.updateCorpusList(reply),
+            err => alert('Failed to fetch corpora: ' + err.message) 
+        ).finally(
+            () => this.finishLoading('corpora')
+        );
+    }
+
+    deleteCorpus(corpusIdx) {
+        postRequest(
+            'api/delete_corpus',
+            this.corpora[corpusIdx]
+        ).then(
+            reply => {
+                this.corpora.splice(corpusIdx, 1);
+                // this.corpusList.remove(corpusIdx);
+                this.updateCorpusList(this.corpora);
+                // Performed locally
+                //this.fetchCorpora();
+            }
+        );
+    }
+
+    updateCorpusList(value) {
+        this.updateLists('corpora', 'corpusList', value).forEach(
+            (cur, idx) => {
+                // Set up the corpus list item
+                cur.extras.clickable[0].href = '/documents' + concatAndEncode(this.corpora[idx]);
+
+                // Set up the corpus deleter
+                cur.extras.deleter[0].onclick = () => {
+                    this.deleteCorpus(idx);
+                };
             }
         );
     }
@@ -112,22 +171,37 @@ class DocumentsView extends View {
     }
 
     fetchDocuments() {
-        this.startLoading('documents');
+        // this.startLoading('documents');
 
         getRequest(
             'api/read_document',
-            { corpusId: this._corpus.id}
+            { corpusId: this._corpus.id }
             // this.corpora[corpusIdx] 
         ).then(
-            reply => this.updateDocumentList(reply),
+            reply => {
+                this.updateDocumentList(reply).forEach(
+                    (cur, idx) => {
+                        // cur.extras.content[0];
+                        cur.extras.content[1].textContent = '20.04.2020';
+                        // cur.extras.content[2]
+
+                        cur.onclick = () => {
+                            this.fetchText(idx);
+                            cur.classList.add('gradient');
+                            document.querySelector('#word').hidden = false;
+                            document.querySelector('.article-container').classList.add('with-sidebar');
+                        };
+                    }
+                );
+            },
             err => alert('Failed to fetch documents: ' + err.message) 
         ).finally(
-            () => this.finishLoading('documents')
+            () => {} // this.finishLoading('documents')
         );
     }
 
     fetchText(documentIdx) {
-        this.startLoading('text')
+        // this.startLoading('text')
 
         getRequest(
             'api/read_text',
@@ -135,7 +209,7 @@ class DocumentsView extends View {
             // { document: this.documents[documentIdx].id }
         ).then(
             reply => {
-                const root = document.getElementById('colorized-html');
+                const root = document.getElementById('word-body');
 
                 root.innerHTML = reply.text;
 
@@ -150,7 +224,7 @@ class DocumentsView extends View {
                     }
                 );
 
-                this.updateLists('markers', 'markerList', reply.annotationList).forEach(
+                /* this.updateLists('markers', 'markerList', reply.annotationList).forEach(
                     (cur, idx) => {
                         const contents = cur.extras.content;
                         const marker = reply.annotationList[idx];
@@ -159,11 +233,11 @@ class DocumentsView extends View {
                         contents[1].textContent = marker.startNode;
                         contents[2].textContent = marker.endNode;
                     }
-                );
+                ); */
             },
             err => alert('Failed to fetch the document text: ' + err.message) 
         ).finally(
-            () => this.finishLoading('text')
+            () => {} // this.finishLoading('text')
         );
     }
 
@@ -183,7 +257,7 @@ class DocumentsView extends View {
     }
 
     updateDocumentList(value) {
-        this.updateLists('documents', 'documentList', value).forEach(
+        return this.updateLists('documents', 'documentList', value).map(
             (cur, idx) => {
                 // Set up the document list item
                 cur.extras.clickable[0].onclick = event => {
@@ -191,9 +265,11 @@ class DocumentsView extends View {
                     this.fetchText(this.currentDocument);
                 };
 
-                cur.extras.deleter[0].onclick = event => {
+                return cur;
+
+                /* cur.extras.deleter[0].onclick = event => {
                     this.deleteDocument(idx);
-                };
+                }; */
             }
         );
     }

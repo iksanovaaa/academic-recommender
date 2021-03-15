@@ -69,10 +69,6 @@
                 </div>
             </div>
         </article>
-        Hello [[${#httpServletRequest.remoteUser}]]!
-        <div sec:authorize="hasRole('USER')">Text visible to user.</div>
-        <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
-        <div sec:authorize="${not isAuthenticated()}">Auth</div>
     </div>
     <footer>
 

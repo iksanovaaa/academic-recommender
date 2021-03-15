@@ -223,31 +223,42 @@ div.applications-container {
 
 /* Corpus view body */
 #corpus-container {
+  min-width: 500px;
   /* width: 900px; */
 }
 
-table {
+#corpus-container table {
   background-color: #E5E5E5;
   border: 1px #BBB solid;
   border-collapse: collapse;
 }
 
-tbody {
+#corpus-container tbody {
   border: inherit;
 }
 
-th {
+#corpus-container th {
   border: inherit;
 }
 
-tr {
+#corpus-container tr {
   border: inherit;
 }
 
-td {
+#corpus-container td {
   border: inherit;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+#corpus-container summary {
+  background-color: #BBB;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+#corpus-container details {
+  margin-top: 10px;
 }
 
 td.content {
@@ -268,4 +279,184 @@ tr:nth-last-of-type(1) {
 
 summary {
   cursor: pointer;
+}
+
+div#document-table {
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+}
+
+div#document-table-header-row {
+  
+}
+
+div.document-row {
+  display: grid;
+  grid-template-columns: 60% 40%; /* 20% 20%; */
+  justify-content: stretch;
+  gap: 0px;
+}
+
+span.document-header {
+  font-weight: bold;
+  background-color: #E5E5E5;
+  text-align: center;
+}
+
+span.document-col {
+  margin-left: -1px;
+  margin-top: -1px;
+  padding-left: 5px;
+  border: 1px #BBB solid;
+}
+
+#document-list .document:nth-of-type(odd) {
+  background-color: white;
+}
+
+#document-list .document {
+  background-color: #E5E5E5;
+}
+
+div#document-table-footer {
+  font-weight: bold;
+
+  margin-top: -1px;
+  background-color: #E5E5E5;
+  border: 1px #BBB solid;
+  text-align: center;
+}
+
+div#word {
+  border-radius: 0px;
+  min-height: 500px;
+  max-height: 1000px;
+  overflow-y: scroll;
+  padding: 0px;
+}
+
+div#word-header {
+  background-color: #576CA8;
+  height: 50px;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+div#word-header > img {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+div#word-header > img:hover {
+  box-shadow: 0 0 5px 1px rgba(255,255,255,1);
+}
+
+div#word-body {
+  padding-left: 30px;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+div.with-sidebar {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+                  'a s'
+                  'b s';
+  justify-content: center;
+}
+
+div.with-sidebar header {
+  grid-area: a;
+}
+
+div.with-sidebar article {
+  grid-area: b;
+  padding-left: 50px;
+}
+
+div.with-sidebar #sidebar {
+  grid-area: s;
+  display: block;
+}
+
+#sidebar {
+  display: none;
+  min-width: 300px;
+  max-width: 400px;
+  background: linear-gradient(180deg, rgb(71, 92, 150), rgb(126, 153, 230));
+  position: fixed;
+  right: 0px;
+  height: 800px;
+}
+
+#sidebar-header {
+  text-align: center;
+  color: white;
+}
+
+#annotation-container {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#annotation-list {
+  min-height: 600px;
+  background-color: white;
+  padding-left: inherit;
+  padding-right: inherit;
+  padding-top: 20px;
+}
+
+#corpus-brief {
+  display: grid;
+  grid-template-columns: 75% 25%;
+}
+
+input.rounded {
+  border: 1px #BBB solid;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* ToDo: generalize (along with authorization code) */
+div#corpus-create-box {
+  padding-top: 20px;
+  text-align: center;
+}
+
+input#corpus {
+  text-align: center;
+}
+
+p#corpus-desc {
+  border-right: 1px solid #BBB;
+}
+
+#submit {
+  min-width: 180px;
+
+  margin-top: 10px;
+  border: 1px #BBB solid;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#document-brief {
+  display: grid;
+  grid-template-columns: 75% 25%;
 }
