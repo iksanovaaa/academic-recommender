@@ -8,13 +8,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CorporaController {
-    @Autowired
-    private CorpusService corpusService;
+    //@Autowired
+    //private CorpusService corpusService;
 
-    @GetMapping(value = "/corpora")
+    /*@GetMapping(value = "/corpora")
     public ModelAndView corpora() {
         var mv = new ModelAndView("corpora");
         mv.addObject("corpora", corpusService.readCorpora());
         return mv;
     }
+
+     */
+
+    @GetMapping(value = "/corpora")
+    public ModelAndView corpora() {
+        return null;
+    }
 }
+

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TextService {
+    /*
     @Autowired
     private GateService gateService;
     @Autowired
@@ -18,9 +19,10 @@ public class TextService {
 
     @Transactional()
     Text createText(TextDto textDto) throws DocumentNotCreatedException {
-        var text = gateService.processWithGate(textDto.getContent());
-        text = textRepository.save(text);
-        return text;
+        //var text = gateService.processWithGate(textDto.getContent());
+        //text = textRepository.save(text);
+        //return text;
+        return null;
     }
 
     @Transactional
@@ -31,5 +33,21 @@ public class TextService {
     @Transactional
     void deleteText(String id) {
         textRepository.deleteById(id);
+    }
+
+     */
+
+    @Transactional()
+    Text createText(TextDto textDto) throws DocumentNotCreatedException {
+        return null;
+    }
+
+    @Transactional
+    Text readText(String id) throws TextNotPresentException {
+        return null;
+    }
+
+    @Transactional
+    void deleteText(String id) {
     }
 }

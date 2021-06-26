@@ -25,7 +25,7 @@ public class AcademicWritingRecommenderApplication {
 	@Autowired private CorpusRepository corpusRepository;
 	@Autowired private DocumentRepository documentRepository;
 	@Autowired private TextRepository textRepository;
-	@Autowired private GateService gateService;
+	//@Autowired private GateService gateService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AcademicWritingRecommenderApplication.class, args);
@@ -46,11 +46,12 @@ public class AcademicWritingRecommenderApplication {
 
 	@Bean
 	public CorpusController corpusController() throws GateException, URISyntaxException, IOException {
-		Gate.init();
+		//Gate.init();
 
-		var resource = Optional.ofNullable(getClass().getClassLoader().getResource("gate/corpus-pipeline.xml"))
-				.orElseThrow(() -> new GateRuntimeException("GATE program not found"));
+		//var resource = Optional.ofNullable(getClass().getClassLoader().getResource("gate/corpus-pipeline.xml"))
+		//		.orElseThrow(() -> new GateRuntimeException("GATE program not found"));
 
-		return (CorpusController) PersistenceManager.loadObjectFromUrl(resource);
+		//return (CorpusController) PersistenceManager.loadObjectFromUrl(resource);
+		return (CorpusController) null;
 	}
 }

@@ -15,9 +15,9 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "api", consumes = "application/json", produces = "application/json")
 public class DocumentApiController {
-    @Autowired private CorpusService corpusService;
+    //@Autowired private CorpusService corpusService;
 
-    @PostMapping("/create_document")
+    /*@PostMapping("/create_document")
     public Corpus createDocument(@RequestBody DocumentDto documentDto) throws DocumentNotCreatedException {
         try {
         return corpusService.createAndAddDocument(documentDto);
@@ -68,5 +68,35 @@ public class DocumentApiController {
                 new DocumentDto(corpus.getId(), "BLACK SIEMENS", content)
         );
     }
-}
 
+     */
+    @PostMapping("/create_document")
+    public Corpus createDocument(@RequestBody DocumentDto documentDto) throws DocumentNotCreatedException {
+        return null;
+    }
+
+    @PostMapping("/create_documents")
+    public List<Corpus> createDocuments(@RequestBody List<DocumentDto> documentDtos) throws DocumentNotCreatedException {
+        return null;
+    }
+
+    @GetMapping(value = "/read_document", consumes = "application/x-www-form-urlencoded")
+    public List<Document> readDocument(@RequestParam String corpusId) throws CorpusNotFoundException {
+        return null;
+    }
+
+    @PostMapping("/update_document")
+    public void updateDocument(Model model) {
+
+    }
+
+    @PostMapping("/delete_document")
+    public void deleteDocument(@RequestBody Document document) throws CorpusNotFoundException {
+
+    }
+
+    @GetMapping("/refresh")
+    public void refresh() throws DocumentNotCreatedException {
+
+    }
+}

@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api", consumes = "application/json", produces = "application/json")
 public class CorpusApiController {
-    @Autowired
-    private CorpusService corpusService;
+    //@Autowired
+    //private CorpusService corpusService;
 
-    @PostMapping("/create_corpus")
+    /*@PostMapping("/create_corpus")
     public Corpus createCorpus(@RequestBody CorpusDto corpusDto) {
         return corpusService.createCorpus(corpusDto);
     }
@@ -33,5 +33,27 @@ public class CorpusApiController {
     @PostMapping("/delete_corpus")
     public void deleteCorpus(@RequestBody Corpus corpus) {
         corpusService.deleteCorpus(corpus);
+    }
+
+     */
+
+    @PostMapping("/create_corpus")
+    public Corpus createCorpus(@RequestBody CorpusDto corpusDto) {
+        return null;
+    }
+
+    @GetMapping(value = "/read_corpus", consumes = "application/x-www-form-urlencoded")
+    public List<Corpus> readCorpus() {
+        return null;
+    }
+
+    @PostMapping("/update_corpus")
+    public void updateCorpus(Model model) {
+
+    }
+
+    @PostMapping("/delete_corpus")
+    public void deleteCorpus(@RequestBody Corpus corpus) {
+        ;
     }
 }

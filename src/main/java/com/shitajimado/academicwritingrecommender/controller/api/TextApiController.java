@@ -13,11 +13,18 @@ import java.util.Objects;
 @RestController
 @RequestMapping(value = "api", consumes = "application/json", produces = "application/json")
 public class TextApiController {
-    @Autowired
-    private DocumentService documentService;
+    //@Autowired
+    //private DocumentService documentService;
+
+    /*@GetMapping(value = "/read_text", consumes = "application/x-www-form-urlencoded")
+    public TextHelper readText(Document document) throws TextNotPresentException {
+        return new TextHelper(documentService.readText(document));
+    }
+
+     */
 
     @GetMapping(value = "/read_text", consumes = "application/x-www-form-urlencoded")
     public TextHelper readText(Document document) throws TextNotPresentException {
-        return new TextHelper(documentService.readText(document));
+        return null;
     }
 }

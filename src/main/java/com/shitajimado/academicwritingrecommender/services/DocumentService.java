@@ -15,12 +15,12 @@ import java.util.Set;
 
 @Service
 public class DocumentService {
-    @Autowired
-    private DocumentRepository documentRepository;
-    @Autowired
-    private TextService textService;
+    //@Autowired
+    //private DocumentRepository documentRepository;
+    //@Autowired
+    //private TextService textService;
 
-    @Transactional
+   /* @Transactional
     Document createDocument(DocumentDto documentDto) throws DocumentNotCreatedException {
         var text = textService.createText(new TextDto(documentDto.getContent()));
 
@@ -49,5 +49,32 @@ public class DocumentService {
     @Transactional
     public Text readText(Document document) throws TextNotPresentException {
         return textService.readText(document.getTextId());
+    }
+
+    */
+
+    @Transactional
+    Document createDocument(DocumentDto documentDto) throws DocumentNotCreatedException {
+        return null;
+    }
+
+    @Transactional
+    List<Document> readDocuments(Set<String> ids) {
+        return null;
+    }
+
+    @Transactional
+    void deleteDocument(Document document) {
+
+    }
+
+    @Transactional
+    void deleteDocuments(Set<String> ids) {
+
+    }
+
+    @Transactional
+    public Text readText(Document document) throws TextNotPresentException {
+        return null;
     }
 }
